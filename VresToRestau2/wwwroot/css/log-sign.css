@@ -1,0 +1,206 @@
+﻿body {
+    background-color: #f9f6f1;
+}
+
+
+main {
+    margin: 90px 0px 0px;
+    
+}
+
+.image-holder {
+    width:350px;
+    background-color:inherit;
+    padding-left:25px;
+    padding-right:53px;
+}
+
+.out-container form{
+    padding-left:52px;
+
+}
+
+.out-container {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 15px;
+    padding: 15px;
+    background-color: #fff !important;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.18);
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+h1 {
+    /*text-transform: uppercase;*/
+    font-size: 28px;
+    line-height: 120%;
+    font-weight: 700;
+    color: #453e79;
+    font-family:sans-serif;
+}
+
+.form-without-h1 {
+    padding-top: 29px;
+}
+
+.form-group {
+    display: block;
+    margin-bottom: 15px;
+    text-align: left;
+    padding-top: 6px;
+    /*border: 1px solid #333;
+    border-left: none;
+    border-right: none;
+    border-top: none;*/
+}
+
+/*.form-group label{
+    padding-bottom:7px;
+}*/
+    .form-group input {
+        width: 94.4%;
+        border: none;
+        border-bottom: 1px solid #333; /* Add only the bottom border */
+        border-radius: 0px;
+        font-size: 18px !important;
+        outline: none; /* Remove the default focus outline */
+        box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+        background: none; /* Remove background color */
+        padding: 0px;
+        padding-bottom: 1px;
+        font-family: sans-serif;
+        color: #333;
+    }
+
+        .form-group input:focus {
+            border-bottom: 1px solid #333; /* Ensure the bottom border remains on focus */
+            box-shadow: none;
+            background: none;
+            
+        }
+
+
+/*.form-control {
+    padding-top: 17px;
+}
+*/
+
+
+/*.form-group input {
+    width: 93.1%;
+}
+
+.form-group {
+    display: block;
+    margin-bottom: 15px;
+    text-align: left;
+    border: 1px solid #333;
+    border-left: none ;
+    border-right: none ;
+    border-top: none ;
+}*/
+
+.validation-summary {
+    margin-top: 15px;
+    display: none;
+
+}
+
+    .validation-summary p {
+        list-style-type: none !important;
+    }
+    .form-group-eye {
+    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    padding-top:6px;
+}
+
+.form-group-eye input{
+    border: none;
+    border-bottom: 1px solid #333;
+    border-radius: 0px;
+    font-size: 18px !important;
+    outline: none; 
+    box-sizing: border-box;
+    background: none; 
+    padding: 0px;
+    padding-bottom: 1px;
+    font-family: sans-serif;
+    color: #333;
+}
+
+    .form-group-eye input:focus {
+        border-bottom: 1px solid #333; /* Ensure the bottom border remains on focus */
+        box-shadow: none;
+        background: none;
+    }
+
+.form-group-eye img {
+    padding-top:7px;
+    width: 27px;
+    cursor: pointer;
+    padding-left:3px;
+}
+
+.form-group-button button {
+    border-radius:10px;
+    margin-top:20px;
+    margin-bottom: 10px;
+    
+}
+
+h3 {
+    font-family: sans-serif;
+    font-size: 23px !important;
+    /*color: #453e79;*/
+}
+
+.out-container a {
+    color: #453e79 !important;
+}
+
+    .out-container a:hover {
+        /*color: rgb(86, 99, 65) !important;*/
+        text-decoration: underline;
+    }
+
+.validation-summary-errors {
+    color: red !important;
+}
+
+.btn {
+    font-size: 18px;
+    color: #666;
+    font-weight: 500;
+    background-color: #e9e0cf !important;
+    border-color: #e9e0cf !important;
+    /*font-weight: bold;*/
+    border-width: medium;
+    width: 100px;
+    height: 40px;
+    text-align: center !important;
+    padding: 0px 0px;
+    box-shadow: none;
+}
+
+    .btn:hover {
+        background-color: #cfc7b8 !important;
+        border-color: #cfc7b8 !important;
+        color: #666;
+        box-shadow: none;
+    }
+
+    .btn:focus {
+        background-color: #cfc7b8 !important;
+        border-color: #cfc7b8 !important;
+        color: #666;
+        box-shadow: none !important;
+    }

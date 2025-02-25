@@ -1,0 +1,331 @@
+body {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    background-color: #272343;
+}
+
+.site-blocks-cover h1 {
+    font-size: 8 rem;
+    font-weight: 670 !important;
+    line-height: 1;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+
+
+.col-md-6 {
+    margin-left: 700px !important;
+    z-index: 1000;
+}
+
+
+
+p {
+    color: #b3b3b3;
+    font-weight: 300;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+a {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+    a, a:hover {
+        text-decoration: none !important;
+    }
+
+.content {
+    padding-top: 0rem;
+    padding-bottom: 5rem;
+    margin-top: -16px;
+    background-color: #272343;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+/* 10 */
+.site-blocks-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+    position: relative;
+}
+
+    .site-blocks-cover.overlay {
+        position: relative;
+    }
+
+        .site-blocks-cover.overlay:before {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+    .site-blocks-cover, .site-blocks-cover > .container > .row {
+        min-height: 600px;
+        height: calc(100vh);
+    }
+
+        .site-blocks-cover h1 {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+@media (max-width: 991.98px) {
+    .site-blocks-cover h1 {
+        font-size: 4rem;
+    }
+}
+
+.site-blocks-cover .sub-text {
+    font-size: 1.4rem;
+    color: gray;
+    font-weight: 300;
+}
+
+@media (max-width: 991.98px) {
+    .site-blocks-cover .sub-text {
+        color: #000;
+    }
+}
+
+.site-blocks-cover .img-wrap {
+    position: absolute;
+    z-index: -1;
+    width: calc(100% - 50%);
+    top: 0;
+    height: 100%;
+    z-index: 2;
+    right: 50%;
+    min-height: 600px;
+    overflow: hidden;
+    border-bottom-right-radius: 200px;
+}
+
+@media (max-width: 991.98px) {
+    .site-blocks-cover .img-wrap {
+        width: 100%;
+        right: 0%;
+        top: 0;
+    }
+
+        .site-blocks-cover .img-wrap .hero-slider:before {
+            position: absolute;
+            content: "";
+            background: #fff;
+            opacity: .5;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+}
+
+.site-blocks-cover .img-wrap .slide {
+    height: 100vh;
+    position: relative;
+}
+
+    .site-blocks-cover .img-wrap .slide img {
+        position: absolute;
+        top: 0;
+        height: 80%;
+        width: 100%;
+        border-bottom-right-radius: 80px;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+
+.site-blocks-cover .intro {
+    z-index: 1;
+    position: relative;
+}
+
+    .site-blocks-cover .intro .heading {
+        margin-left: -150px;
+    }
+
+@media (max-width: 991.98px) {
+    .site-blocks-cover .intro .heading {
+        margin-left: 0;
+    }
+}
+
+.site-blocks-cover .intro .text {
+    padding-left: 50px;
+}
+
+@media (max-width: 991.98px) {
+    .site-blocks-cover .intro .text {
+        padding-left: 0;
+    }
+}
+
+.site-menu-toggle .menu-text {
+    position: relative;
+    top: -6px;
+    text-transform: uppercase;
+}
+
+.hero-slider .owl-nav {
+    position: absolute;
+    bottom: 120px;
+    right: 50px;
+    z-index: 100;
+}
+
+    .hero-slider .owl-nav .owl-prev, .hero-slider .owl-nav .owl-next {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 50%;
+        background: #007bff;
+        color: #fff;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+    }
+
+        .hero-slider .owl-nav .owl-prev span, .hero-slider .owl-nav .owl-next span {
+            color: #fff;
+            font-size: 30px;
+        }
+
+        .hero-slider .owl-nav .owl-prev:active, .hero-slider .owl-nav .owl-prev:focus, .hero-slider .owl-nav .owl-next:active, .hero-slider .owl-nav .owl-next:focus {
+            outline: none;
+        }
+
+.btn-pill {
+    border-radius: 30px;
+    padding: 15px 30px;
+    border-color: #fff;
+    color: #fff;
+}
+
+    .btn-pill:hover {
+        background: #fff;
+        border-color: #fff;
+        color: #000;
+    }
+
+
+.icon-large {
+    font-size: 20rem;
+}
+
+.icon-color {
+    color: #D7BA89 !important;
+    text-align: left;
+    font-size: 2rem;
+    padding-right: 10px;
+}
+
+
+.icon-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.align {
+    /*    text-align:left;*/
+}
+
+/*change*/
+#firstAlign {
+    margin-top: 40px;
+}
+
+/*.inside-col{
+    align-items:center;
+}*/
+
+.col-6 {
+    text-align: center;
+}
+
+/*.secondCol{
+    margin-left:10%;
+}*/
+
+.name-color {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    color: #D7BA89 !important;
+    text-align: left;
+    font-size: 2rem;
+    font-style: normal;
+}
+
+
+/*change*/
+.info {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid;
+    border-color: #D7BA89 !important;
+    border-radius: 10px;
+}
+
+    .info i {
+        font-size: 26px;
+    }
+
+.fa-solid {
+    margin-bottom: 50px;
+}
+
+#map {
+    border-radius: 20px !important; /* Add border-radius */
+}
+
+
+.vl {
+    border: 1px solid;
+    border-color: #272343;
+    border-left-color: #D7BA89 !important;
+    --fade-start: 50%;
+    --fade-bottom: 50%;
+    mask-image: linear-gradient(to bottom, white var(--fade-start), transparent), linear-gradient(to left, white var(--fade-bottom), transparent);
+    mask-composite: intersect;
+}
+
+.btn-primary:hover {
+    box-shadow: none;
+}
+
+.btn-primary:focus {
+    box-shadow: none !important;
+}
+
+.btn-secondary:hover {
+    box-shadow: none;
+}
+
+.btn-secondary:focus {
+    box-shadow: none !important;
+}
+
+.form-control:hover {
+    box-shadow: none;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+}

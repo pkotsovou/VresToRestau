@@ -1,0 +1,543 @@
+﻿@model AdminIndexViewModel;
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+
+@{
+    ViewData["Title"] = "AdminsDashboard";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Administrator</title>
+    <!-- Φόρτωση εξωτερικού CSS για εικονίδια -->
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <!-- Φόρτωση custom CSS αρχείου για τον πίνακα εγγεγραμμένων χρηστών -->
+    <link rel="stylesheet" href="~/css/Admin/AdminDashboardStyle.css">
+    <link rel="stylesheet" href="~/css/Admin/AdminModalStyle.css">
+
+    <!-- Φόρτωση απαραίτητων JavaScript βιβλιοθηκών -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Java Script -->
+    <!-- AdminDashboard Click -->
+    <script>
+        $(document).ready(function () {
+            // Όταν ο χρήστης κάνει κλικ σε κάποιο sidebar-item a
+            $('.sidebar-item a').on('click', function (event) {
+                // Αποτροπή του default behavior του anchor tag
+                event.preventDefault();
+                console.log('Item clicked'); // Προσθέστε αυτό για να δείτε αν εκτελείται
+                // Αφαιρέστε την κλάση 'active' από όλα τα sidebar-item a
+                $('.sidebar-item a').removeClass('active');
+
+                // Προσθέστε την κλάση 'active' στο στοιχείο που έγινε κλικ
+                $(this).addClass('active');
+            });
+            // Επιλέγουμε το στοιχείο του dashboard
+            var dashboardLink = document.querySelector('.sidebar-menu a[href="dashboard.html"]');
+
+            // Εάν βρεθεί το στοιχείο του dashboard
+            if (dashboardLink) {
+                // Προσθέτουμε την κλάση active
+                dashboardLink.classList.add('active');
+            }
+        });
+    </script>
+    <!-- Redirects -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Αποτροπή της προεπιλεγμένης συμπεριφοράς του συνδέσμου
+
+                    const url = this.getAttribute('data-url'); // Λήψη του URL από το data-attribue
+                    if (url) {
+                        window.location.href = url; // Αλλαγή του URL της σελίδας
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Delete Actions (modal) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteBtns = document.querySelectorAll('.delete-btn');
+            var modal = document.getElementById('deleteModal');
+            var overlay = document.getElementById('overlay');
+            var deleteIdInput = document.getElementById('deleteIdInput');
+            var detailsDiv = document.getElementById('details');
+            var closeModal = document.querySelector('.close');
+            var cancelBtn = document.querySelector('#cancelDeleteButton');
+            var confirmDeleteBtn = document.getElementById('confirmDeleteButton');
+            var antiForgeryToken = document.getElementById('antiForgeryToken').value;
+            var currentType = '';
+
+            deleteBtns.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var type = btn.getAttribute('data-type');
+                    currentType = type;
+                    var id = btn.getAttribute('data-' + type + '-id');
+                    var name = btn.getAttribute('data-' + type + '-name');
+                    deleteIdInput.value = id;
+                    detailsDiv.innerHTML = type.charAt(0).toUpperCase() + type.slice(1) + " Name: " + name;
+                    modal.classList.add('active');
+                    overlay.classList.add('active');
+                });
+            });
+
+            closeModal.addEventListener('click', function () {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            cancelBtn.addEventListener('click', function () {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            confirmDeleteBtn.addEventListener('click', function () {
+                var id = deleteIdInput.value;
+                var url = '';
+                if (currentType === 'user') { //allagh
+                    url = `/Admins/DeleteRegisteredUserConfirmed/${id}`;
+                } else if (currentType === 'restaurant') {
+                    url = `/Admins/DeleteRestaurantConfirmed/${id}`;
+                }
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': antiForgeryToken
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (currentType === 'user') {   //allagh
+                                window.location.href = '/Admins/AdminsDashboard';
+                            } else if (currentType === 'restaurant') {
+                                window.location.href = '/Admins/AdminsDashboard';
+                            }
+                        } else {
+                            alert(data.message || "An error occurred.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("An error occurred.");
+                    });
+            });
+
+            overlay.addEventListener('click', function () {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+    <!-- Εισαγωγή ενός checkbox για το κουμπί πλοήγησης -->
+    <input type="checkbox" id="nav-toggle" />
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <!-- Κεφαλίδα της πλευρικής μπάρας -->
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+
+        <!-- !!! REDIRECTS να φτιάξω + redirects.js !!! -->
+        <!-- Μενού πλοήγησης -->
+        <div class="sidebar-menu">
+            <ul>
+                <!-- Κουμπί Dashboard -->
+                <li class="sidebar-item">
+                    <a href="dashboard.html">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <!-- Κουμπί Registered Users -->
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/RegisteredUsers">
+                        <span class="las la-users"></span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <!-- Κουμπί Restaurants -->
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/Restaurants">
+                        <span class="las la-utensils"></span>
+                        <span>Restaurants</span>
+                    </a>
+                </li>
+                <!-- Κουμπί Requests -->
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/Requests">
+                        <span class="las la-clipboard-list"></span>
+                        <span>Requests</span>
+                    </a>
+                </li>
+                <!-- Κουμπί Log Out -->
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Visitors/SignOut">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <!-- Επικεφαλίδα της κύριας σελίδας -->
+            <h2>
+                <!-- Εικονίδιο μενού -->
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                <!-- Τίτλος της σελίδας -->
+                Admin's Dashboard
+            </h2>
+        </header>
+
+        <main>
+
+            <!-- Java Script (redirects)-->
+            <script>
+                function redirectToRegisteredUsers() {
+                    window.location.href = '/Admins/RegisteredUsers';
+                }
+                function redirectToRestaurants() {
+                    window.location.href = '/Admins/Restaurants';
+                }
+                function redirectToRequests() {
+                    window.location.href = '/Admins/Requests';
+                }
+            </script>
+
+            <!-- Κάρτες  -->
+            <div class="cards">
+                <!-- Κάρτα με τον αριθμό των εγγεγραμμένων χρηστών -->
+                <div class="card-single" onclick="redirectToRegisteredUsers()">
+                    <div>
+                        <!-- Αριθμός εγγεγραμμένων χρηστών -->
+                        <h1>@Model.RegisteredUsersCount</h1>
+                        <!-- Κείμενο "Users" -->
+                        <span>Users</span>
+                    </div>
+                    <div>
+                        <!-- Εικονίδιο χρηστών -->
+                        <span class="las la-users"></span>
+                    </div>
+                </div>
+
+                <!-- Κάρτα με τον αριθμό των εγγεγραμμένων εστιατορίων -->
+                <div class="card-single" onclick="redirectToRestaurants()">
+                    <div>
+                        <!-- Αριθμός εγγεγραμμένων εστιατορίων -->
+                        <h1>@Model.AcceptedRestaurantsCount</h1>
+                        <!-- Κείμενο "Restaurants" -->
+                        <span>Restaurants</span>
+                    </div>
+                    <div>
+                        <!-- Εικονίδιο εστιατορίων -->
+                        <span class="las la-utensils"></span>
+                    </div>
+                </div>
+                <!-- Κάρτα με τον αριθμό των αιτημάτων -->
+                <div class="card-single" onclick="redirectToRequests()">
+                    <div>
+                        <!-- Αριθμός αιτημάτων (στατικός στο 0) -->
+                        <h1>@Model.PendingRestaurantsCount</h1>
+                        <!-- Κείμενο "Requests" -->
+                        <span>Requests</span>
+                    </div>
+                    <div>
+                        <!-- Εικονίδιο αιτημάτων -->
+                        <span class="las la-clipboard-list"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="grid-container">
+                <div class="recent-grid full-width">
+                    <!-- Πίνακας με τα πρόσφατα αιτήματα -->
+                    <div class="projects">
+                        <div class="card">
+                            <div class="card-header">
+                                <!-- Επικεφαλίδα με τον τίτλο "Recent Requests" -->
+                                <h3>Pending Requests</h3>
+                                <!-- Κουμπί για προβολή όλων των αιτημάτων -->
+                                <button>
+                                    <a asp-action="Requests" asp-controller="Admins" class="btn btn-primary">
+                                        See all <span class="las la-arrow-right"></span>
+                                    </a>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Σώμα με τα δεδομένα των αιτημάτων -->
+                                @if (Model.PendingRestaurants != null && Model.PendingRestaurants.Any())
+                                {
+                                    <!-- Πίνακας με τα δεδομένα των αιτημάτων -->
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <!-- Επικεφαλίδα του πίνακα -->
+                                                <tr>
+                                                    <!-- Στήλες του πίνακα -->
+                                                    <th>Restaurant Name</th>
+                                                    <th>Status</th>
+                                                    <th>Details</th>
+                                                    <th>Preview</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Επαναληπτική δομή για κάθε αίτημα -->
+                                                @foreach (var restaurant in Model.PendingRestaurants)
+                                                {
+                                                    <tr>
+                                                        <!-- Όνομα του εστιατορίου -->
+                                                        <td class="column-username">@restaurant.RestaurantName</td>
+                                                        <!--Status-->
+                                                        @if (restaurant.Status == "pending")
+                                                        {
+                                                            <td class="status pending"><span>Pending</span></td>
+                                                        }
+                                                        else if (restaurant.Status == "almost ready")
+                                                        {
+                                                            <td class="status almost"><span>Almost Ready</span></td>
+                                                        }
+                                                        else if (restaurant.Status == "rejected")
+                                                        {
+                                                            <td class="status rejected"><span>Rejected</span></td>
+                                                        }
+                                                        <!-- λεπτομέρειες -->
+                                                        <td class="column-actions">
+                                                            <!-- Σύνδεσμος για λεπτομέρειες του εστιατορίου -->
+                                                            <a asp-controller="Admins" asp-action="RestaurantDetails" asp-route-id="@restaurant.Id" class="action-icon details-btn" title="Details">
+                                                                <span class="las la-info-circle"></span>
+                                                            </a>
+                                                        </td>
+                                                        <td class="column-actions">
+                                                            <!-- Σύνδεσμος για λεπτομέρειες του εστιατορίου -->
+                                                            <a asp-controller="Restaurants" asp-action="Details" asp-route-id="@restaurant.Id" class="action-icon details-btn" title="Preview">
+                                                                <span class="las la-eye"></span>
+                                                            </a>
+                                                        </td>
+                                                        <!-- Φόρμα ενεργειών -->
+                                                        <td class="column-actions">
+                                                            <form id="form-@restaurant.Id" asp-controller="Admins" asp-action="UpdateStatus" method="post">
+                                                                <input type="hidden" name="restaurantId" value="@restaurant.Id" />
+                                                                <input type="hidden" name="action" id="action-@restaurant.Id" value="" />
+                                                                <input type="hidden" name="source" value="AdminsDashboard" /> <!-- Προέλευση του αιτήματος -->
+
+                                                                <a href="#" class="action-icon correct-btn" title="Approve" onclick="submitForm('@restaurant.Id', 'approve')">
+                                                                    <span class="las la-check"></span>
+                                                                </a>|
+                                                                <a href="#" class="action-icon reject-btn" title="Reject" onclick="submitForm('@restaurant.Id', 'reject')">
+                                                                    <span class="las la-times"></span>
+                                                                </a>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!-- Μήνυμα όταν δεν βρέθηκαν αιτήματα -->
+                                    <div class="no-requests-message">
+                                        No pending requests found.
+                                    </div>
+                                }
+                                <script>
+                                    function submitForm(restaurantId, action) {
+                                        document.getElementById('action-' + restaurantId).value = action;
+                                        document.getElementById('form-' + restaurantId).submit();
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Πρόσφατα δεδομένα -->
+                <div class="recent-grid half-width">
+
+                    <!-- Πίνακας με τα πρόσφατα εστιατόρια -->
+                    <div class="projects">
+                        <div class="card">
+                            <div class="card-header">
+                                <!-- Επικεφαλίδα με τον τίτλο "Restaurants" -->
+                                <h3>Restaurants</h3>
+                                <!-- Κουμπί για προβολή όλων των εστιατορίων -->
+                                <button>
+                                    <a asp-action="Restaurants" asp-controller="Admins" class="btn btn-primary">
+                                        See all <span class="las la-arrow-right"></span>
+                                    </a>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Σώμα με τα δεδομένα των εστιατορίων -->
+                                @if (Model.Restaurants != null && Model.Restaurants.Any())
+                                {
+                                    <!-- Πίνακας με τα δεδομένα των εστιατορίων -->
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <!-- Επικεφαλίδα του πίνακα -->
+                                                <tr>
+                                                    <!-- Στήλες του πίνακα -->
+                                                    <th>Restaurant Name</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Επαναληπτική δομή για κάθε εστιατόριο -->
+                                                @foreach (var restaurant in Model.AcceptedRestaurants)
+                                                {
+                                                    <tr>
+                                                        <!-- Όνομα του εστιατορίου -->
+                                                        <td class="column-username">@restaurant.RestaurantName</td>
+                                                        <td class="column-actions">
+                                                            <!-- Σύνδεσμος για λεπτομέρειες του εστιατορίου -->
+                                                            <a asp-controller="Admins" asp-action="RestaurantDetails" asp-route-id="@restaurant.Id" class="action-icon details-btn" title="Details">
+                                                                <span class="las la-info-circle"></span>
+                                                            </a> |
+                                                            <!-- Σύνδεσμος για διαγραφή του εστιατορίου -->
+                                                            <a href="#" data-type="restaurant" class="action-icon delete-btn" title="Delete" data-restaurant-id="@restaurant.Id" data-restaurant-name="@restaurant.RestaurantName">
+                                                                <span class="las la-trash-alt"></span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!-- Μήνυμα όταν δεν βρέθηκαν εστιατόρια -->
+                                    <div class="no-restaurants-message">
+                                        No restaurants found.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Πίνακας με τους πρόσφατα εγγεγραμμένους χρήστες -->
+                    <div class="customers">
+                        <div class="card">
+                            <div class="card-header">
+                                <!-- Επικεφαλίδα με τον τίτλο "Registered Users" -->
+                                <h3>Registered Users</h3>
+                                <!-- Κουμπί για προβολή όλων των εγγεγραμμένων χρηστών -->
+                                <button>
+                                    <a asp-action="RegisteredUsers" asp-controller="Admins" class="btn btn-primary">
+                                        See all <span class="las la-arrow-right"></span>
+                                    </a>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                @if (Model.RegisteredUsers != null && Model.RegisteredUsers.Any())
+                                {
+                                    <!-- Πίνακας με τα δεδομένα των εγγεγραμμένων χρηστών -->
+                                    <table class="table">
+                                        <thead>
+                                            <!-- Επικεφαλίδα του πίνακα -->
+                                            <tr>
+                                                <!-- Στήλες του πίνακα -->
+                                                <th>Registered User's Names</th>
+                                                <th>Admin's Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Επαναληπτική δομή για κάθε εγγεγραμμένο χρήστη -->
+                                            @foreach (var user in Model.RegisteredUsers)
+                                            {
+                                                <tr>
+                                                    <!-- Όνομα του εγγεγραμμένου χρήστη -->
+                                                    <td class="column-username">@user.Username</td>
+                                                    <!-- Ενέργειες του διαχειριστή (π.χ. λεπτομέρειες, διαγραφή) -->
+                                                    <td class="column-actions">
+                                                        <!-- Σύνδεσμος για λεπτομέρειες του χρήστη -->
+                                                        <a asp-controller="Admins" asp-action="RegisteredUserDetails" asp-route-id="@user.Id" class="action-icon details-btn" title="Details">
+                                                            <span class="las la-info-circle"></span>
+                                                        </a> |
+                                                        <!-- Σύνδεσμος για διαγραφή του χρήστη -->
+                                                        <a href="#" data-type="user" class="action-icon delete-btn" data-user-id="@user.Id" data-user-name="@user.Username" title="Delete">
+                                                            <span class="las la-user-slash"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <!-- Μήνυμα όταν δεν βρέθηκαν εγγεγραμμένοι χρήστες -->
+                                    <div class="no-users-message">
+                                        No users found.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Παράθυρο επιβεβαίωσης διαγραφής -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- Επικεφαλίδα παραθύρου επιβεβαίωσης διαγραφής -->
+                        <h5 class="modal-title">Confirm Deletion</h5>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this <span id="detailsType"></span>?</p>
+                        <div id="details"></div>
+                        <!-- Κρυφό πεδίο εισαγωγής ID για τη διαγραφή -->
+                        <input type="hidden" id="deleteIdInput" name="Id" value="" />
+                        <!-- Κρυφό πεδίο εισαγωγής αντι-παραπλανητικού τεκμηρίου -->
+                        <input type="hidden" id="antiForgeryToken" name="__RequestVerificationToken" value='@Html.Raw(@Html.AntiForgeryToken().ToString().Replace("\"", "&quot;"))' />
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Κουμπί ακύρωσης διαγραφής -->
+                        <button type="button" class="btn btn-secondary" id="cancelDeleteButton">Cancel</button>
+                        <!-- Κουμπί επιβεβαίωσης διαγραφής -->
+                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Επικάλυψη για το παράθυρο επιβεβαίωσης διαγραφής -->
+        <div id="overlay"></div>
+
+        <!-- Κρυφή φόρμα για το αντιπαραπλανητικό τεκμήριο -->
+        <form id="antiForgeryForm">
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
+</body>
+</html>
+

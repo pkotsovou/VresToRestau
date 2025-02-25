@@ -1,0 +1,143 @@
+﻿@model IEnumerable<VresToRestau2.Models.Review>
+
+@{
+    ViewData["Title"] = "Professional User Reviews";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Professional User</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/ProfUser/ProfUserDashboardStyle.css">
+    <link rel="stylesheet" href="~/css/ProfUser/ProfUserModalStyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <input type="checkbox" id="nav-toggle" />
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="sidebar-item">
+                    <a asp-controller="ProfessionalUsers" asp-action="Dashboard">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a asp-controller="ProfessionalUsers" asp-action="Reviews" class="active">
+                        <span class="las la-comment"></span>
+                        <span>Reviews</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a asp-controller="ProfessionalUsers" asp-action="Responses">
+                        <span class="las la-reply"></span>
+                        <span>Responses</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a asp-controller="ProfessionalUsers" asp-action="EditRestaurant">
+                        <span class="las la-edit"></span>
+                        <span>Edit Restaurant</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a asp-controller="Visitors" asp-action="Index">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <h2>
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                Professional User Dashboard
+            </h2>
+        </header>
+        <main>
+            <div class="recent-grid">
+                <div class="customers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Reviews</h3>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.Any())
+                            {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>RestaurantId</th>
+                                            <th>Stars</th>
+                                            <th>Comment</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var review in Model)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => review.Username)</td>
+                                                <td>@Html.DisplayFor(modelItem => review.RestaurantId)</td>
+                                                <td>@Html.DisplayFor(modelItem => review.Stars)</td>
+                                                <td>@Html.DisplayFor(modelItem => review.Comment)</td>
+                                                <td>
+                                                    <a asp-action="ReviewDetails" asp-route-id="@review.Id" class="action-icon" title="Details">
+                                                        <span class="las la-info-circle"></span>
+                                                    </a> |
+                                                    <a href="#" class="action-icon delete-btn" data-review-id="@review.Id" data-review-username="@review.Username" title="Delete">
+                                                        <span class="las la-trash-alt"></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <form method="post" asp-controller="ProfessionalUsers" asp-action="AddResponse">
+                                                        <input type="hidden" name="ReviewId" value="@review.Id" />
+                                                        <textarea name="ResponseDetails" placeholder="Write your response here..."></textarea>
+                                                        <button type="submit">Submit Response</button>
+                                                    </form>
+                                                    <div class="responses" id="responses-@review.Id">
+                                                        @if (ViewBag.Responses != null)
+                                                        {
+                                                            var responsesForThisReview = ((IEnumerable<VresToRestau2.Models.Response>)ViewBag.Responses).Where(r => r.ReviewId == review.Id);
+                                                            foreach (var response in responsesForThisReview)
+                                                            {
+                                                                <div class="response">
+                                                                    <h4>@response.RestaurantName</h4>
+                                                                    <p>@response.ResponseDetails</p>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="no-reviews-message">No reviews found.</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

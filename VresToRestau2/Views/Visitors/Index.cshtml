@@ -1,0 +1,632 @@
+﻿@{
+    var restaurants = ViewBag.Restaurants as List<VresToRestau2.Models.Restaurant>;
+}
+
+<link rel="stylesheet" href="~/css/navbar-footer.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+
+            <div class="d-flex align-items-center search1">
+                <a class="navbar-brand when-inside" asp-area="" asp-controller="Visitors" asp-action="Index">VresToRestau</a>
+            </div>
+
+
+            <div class="d-flex justify-content-center">
+                <form class="form-inline" id="gamotincss" method="get" action="/Visitors/Search">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+
+            <div class="d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Visitors" asp-action="Login">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Visitors" asp-action="SignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+@*https://codepen.io/ocxigin/pen/gOqjRQJ*@
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-3">
+            <nav id="sidebar">
+
+                <div class="p-4 pt-5">
+                    <form method="get" action="/Visitors/Filters">
+                        <h5>Φίλτρα</h5>
+                        <ul class="list-unstyled components mb-5">
+                            <li>
+                                <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Κουζίνες</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu1">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxRestaurants">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxRestaurants" name="Cuisines" value="Restaurants" aria-label="Restaurants">
+                                            Εστιατώρια
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxCafe">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxCafe" name="Cuisines" value="Cafe" aria-label="Cafe">
+                                            Καφέ και Τσάι
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxSouvlakia">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxSouvlakia" name="Cuisines" value="Souvlakia" aria-label="Souvlakia">
+                                            Σουβλάκια
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxPizza">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxPizza" name="Cuisines" value="Pizza" aria-label="Pizza">
+                                            Πίτσα
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBurgers">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBurgers" name="Cuisines" value="Burgers" aria-label="Burgers">
+                                            Burgers
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxAsian">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxAsian" name="Cuisines" value="Asian" aria-label="Asian">
+                                            Ασιάτικη
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Γέυματα</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu2">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBreakfast">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBreakfast" name="meals" value="Breakfast" aria-label="Breakfast">
+                                            Πρωινό
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBrunch">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBrunch" name="meals" value="Brunch" aria-label="Brunch">
+                                            Brunch
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxLunch">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxLunch" name="meals" value="Lunch" aria-label="Lunch">
+                                            Μεσημεριανό
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxDinner">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxDinner" name="meals" value="Dinner" aria-label="Dinner">
+                                            Βραδινό
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Τιμές</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu3">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxCheapEats">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxCheapEats" name="prices" value="CheapEats" aria-label="CheapEats">
+                                            Cheap eats-€
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxMidRange">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxMidRange" name="prices" value="MidRange" aria-label="MidRange">
+                                            Mid-range-€€
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxFineDining">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxFineDining" name="prices" value="FineDining" aria-label="FineDining">
+                                            Fine Dining-€€€
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Αστέρια</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu4">
+                                    <li style="margin-bottom: 10px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar1">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar1" name="stars" value="1" aria-label="Star1">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar2">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar2" name="stars" value="2" aria-label="Star2">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar3">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar3" name="stars" value="3" aria-label="Star3">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar4">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar4" name="stars" value="4" aria-label="Star4">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar5">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar5" name="stars" value="5" aria-label="Star5">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="mb-5">
+                            <h5>Περιοχή</h5>
+                            <div class="tagcloud">
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Παγκράτι')">Παγκράτι</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Εξάρχεια')">Εξάρχεια</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Ψυρή')">Ψυρή</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Κολωνάκι')">Κολωνάκι</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Πλάκα')">Πλάκα</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Κουκάκι')">Κουκάκι</a>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="regions" id="regionsInput">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                    </form>
+
+                </div>
+            </nav>
+        </div>
+
+
+
+
+
+        <!-- Carousel Column -->
+        <div class="col-md-9" style="margin-bottom : 50px">
+
+            <!-- Default dropright button -->
+            <div class="btn-group dropright">
+                <button type="button" class="btn btn-secondary dropdown-toggle filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Suggested
+                </button>
+                <div class="dropdown-menu">
+                    <!-- Dropdown menu links -->
+                    <li>
+                        <form method="get" action="/Visitors/FilterByRating">
+                            <button type="submit" name="rating" value="top" class="dropdown-item">Top rated</button>
+                            <button type="submit" name="rating" value="low" class="dropdown-item">Low rated</button>
+                        </form>
+                    </li>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+
+
+
+                <div class="carousel-inner">
+                    <!-- Carousel Item 1 -->
+                    <div class="carousel-item carousel-item-1 active">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+                                @if (i < 3)
+                                {
+
+                                    <div class="card shadow-sm mx-8 my-5">
+                                        <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                            @{
+                                                var imagePath = @restaurants[i].PhotosLink;
+                                            }
+                                            <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                    <p class="card-text">@restaurants[i].Price</p>
+                                                </div>
+                                                @{
+                                                    int fullStars = @restaurants[i].Stars;
+                                                    int emptyStars = 5 - fullStars;
+                                                }
+                                                @for (int j = 0; j < fullStars; j++)
+                                                {
+                                                    <i class="fas fa-star text-warning"></i>
+                                                }
+                                                @for (int j = 0; j < emptyStars; j++)
+                                                {
+                                                    <i class="far fa-star text-warning"></i>
+                                                }
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <p class="card-text">@restaurants[i].Location</p>
+
+                                                    </div>
+                                                    <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--[end of card]-->
+                                }
+
+                            }
+                        </div>
+                    </div><!-- [end of Carousel Item 1] -->
+                    <!-- Carousel Item 2 -->
+                    <div class="carousel-item carousel-item-2">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+
+                                @if (i >= 3 && i < 6)
+                                {
+                                    <div class="col">
+                                        <div class="card shadow-sm mx-8 my-5">
+                                            <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                                @{
+                                                    var imagePath = @restaurants[i].PhotosLink;
+                                                }
+                                                <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                        <p class="card-text">@restaurants[i].Price</p>
+                                                    </div>
+                                                    @{
+                                                        int fullStars = @restaurants[i].Stars;
+                                                        int emptyStars = 5 - fullStars;
+                                                    }
+                                                    @for (int j = 0; j < fullStars; j++)
+                                                    {
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    }
+                                                    @for (int j = 0; j < emptyStars; j++)
+                                                    {
+                                                        <i class="far fa-star text-warning"></i>
+                                                    }
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <p class="card-text">@restaurants[i].Location</p>
+                                                        </div>
+                                                        <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div><!-- [end of card] -->
+                                    </div>
+
+                                }
+
+                            }
+                        </div>
+                    </div><!-- [end of Carousel Item 2] -->
+                    <!-- Carousel Item 3 -->
+                    <div class="carousel-item carousel-item-3">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+                                @if (i >= 6 && i < 9)
+                                {
+                                    <div class="col">
+                                        <div class="card shadow-sm mx-8 my-5">
+                                            <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                                @{
+                                                    var imagePath = @restaurants[i].PhotosLink;
+                                                }
+                                                <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                        <p class="card-text">@restaurants[i].Price</p>
+                                                    </div>
+                                                    @{
+                                                        int fullStars = @restaurants[i].Stars;
+                                                        int emptyStars = 5 - fullStars;
+                                                    }
+                                                    @for (int j = 0; j < fullStars; j++)
+                                                    {
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    }
+                                                    @for (int j = 0; j < emptyStars; j++)
+                                                    {
+                                                        <i class="far fa-star text-warning"></i>
+                                                    }
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <p class="card-text">@restaurants[i].Location</p>
+                                                        </div>
+                                                        <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div><!-- [end of card] -->
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div><!-- [end of Carousel Item 3] -->
+                </div><!-- [end of carousel-inner] -->
+                <!-- Previous Button -->
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div><!-- [end of carousel] -->
+
+
+
+
+
+
+            <div id="carouselExampleCaptions1" class="carousel slide" data-bs-ride="carousel">
+
+
+                <div class="carousel-indicators">
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" style="background-color: black;" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+
+
+
+
+                <div class="carousel-inner">
+                    <!--The Carousel Container-->
+
+
+                    <div class="carousel-item carousel-item-1 active">
+                        <!--The Carousel item 1-->
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+                                @if (i < 3)
+                                {
+
+                                    <div class="card shadow-sm mx-8 my-5">
+                                        <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                            @{
+                                                var imagePath = @restaurants[i].PhotosLink;
+                                            }
+                                            <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                    <p class="card-text">@restaurants[i].Price</p>
+                                                </div>
+                                                @{
+                                                    int fullStars = @restaurants[i].Stars;
+                                                    int emptyStars = 5 - fullStars;
+                                                }
+                                                @for (int j = 0; j < fullStars; j++)
+                                                {
+                                                    <i class="fas fa-star text-warning"></i>
+                                                }
+                                                @for (int j = 0; j < emptyStars; j++)
+                                                {
+                                                    <i class="far fa-star text-warning"></i>
+                                                }
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <p class="card-text">@restaurants[i].Location</p>
+                                                    </div>
+                                                    <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--[end of card]-->
+                                }
+
+                            }
+                        </div><!--[End of Carousel Item 1]-->
+                    </div>
+
+                    <!-- Carousel Item 2 -->
+                    <div class="carousel-item carousel-item-2">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+
+                                @if (i >= 3 && i < 6)
+                                {
+                                    <div class="col">
+                                        <div class="card shadow-sm mx-8 my-5">
+                                            <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                                @{
+                                                    var imagePath = @restaurants[i].PhotosLink;
+                                                }
+                                                <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                        <p class="card-text">@restaurants[i].Price</p>
+                                                    </div>
+                                                    @{
+                                                        int fullStars = @restaurants[i].Stars;
+                                                        int emptyStars = 5 - fullStars;
+                                                    }
+                                                    @for (int j = 0; j < fullStars; j++)
+                                                    {
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    }
+                                                    @for (int j = 0; j < emptyStars; j++)
+                                                    {
+                                                        <i class="far fa-star text-warning"></i>
+                                                    }
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <p class="card-text">@restaurants[i].Location</p>
+                                                        </div>
+                                                        <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div><!-- [end of card] -->
+                                    </div>
+
+                                }
+
+                            }
+                        </div>
+                    </div> <!--[carousel-item-2]-->
+                    <!-- Carousel Item 3 -->
+                    <div class="carousel-item carousel-item-2">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @for (int i = 0; i < restaurants.Count; i++)
+                            {
+                                @if (i >= 6 && i < 9)
+                                {
+                                    <div class="col">
+                                        <div class="card shadow-sm mx-8 my-5">
+                                            <a href="@Url.Action("Details", "Restaurants", new { id = restaurants[i].Id })">
+                                                @{
+                                                    var imagePath = @restaurants[i].PhotosLink;
+                                                }
+                                                <img src="@imagePath" class="card-img" alt="@imagePath" style="height: 225px; object-fit: cover;">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="card-text">@restaurants[i].RestaurantName</p>
+                                                        <p class="card-text">@restaurants[i].Price</p>
+                                                    </div>
+                                                    @{
+                                                        int fullStars = @restaurants[i].Stars;
+                                                        int emptyStars = 5 - fullStars;
+                                                    }
+                                                    @for (int j = 0; j < fullStars; j++)
+                                                    {
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    }
+                                                    @for (int j = 0; j < emptyStars; j++)
+                                                    {
+                                                        <i class="far fa-star text-warning"></i>
+                                                    }
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <p class="card-text">@restaurants[i].Location</p>
+                                                        </div>
+                                                        <small class="text-bg-warning px-2 rounded">@restaurants[i].Cuisine</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div><!-- [end of card] -->
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div> <!--[carousel-item-3]-->
+                </div><!--[End of Container]-->
+
+                <a class="carousel-control-prev" href="#carouselExampleCaptions1" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions1" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/main.js"></script>
+
+
+
+<script>
+    //for multiple buttons to be sleected(location)
+    document.addEventListener('DOMContentLoaded', function () {
+        var tags = document.querySelectorAll('.tagcloud a');
+
+        tags.forEach(function (tag) {
+            tag.addEventListener('click', function (event) {
+                event.preventDefault();
+                this.classList.toggle('selected');
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    function addRegion(region) {
+        const regionsInput = document.getElementById('regionsInput');
+        let regions = regionsInput.value ? regionsInput.value.split(',') : [];
+        if (!regions.includes(region)) {
+            regions.push(region);
+        } else {
+            regions = regions.filter(r => r !== region);
+        }
+        regionsInput.value = regions.join(',');
+        console.log('Selected regions:', regionsInput.value); // Debugging
+    }</script>

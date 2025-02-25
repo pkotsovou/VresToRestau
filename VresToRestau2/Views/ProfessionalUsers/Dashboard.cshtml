@@ -1,0 +1,281 @@
+﻿@using VrestoRestau2.Models
+@model ProfessionalUserIndexViewModel
+@{
+    ViewData["Title"] = "Professional User Dashboard";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Professional User</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/ProfUser/ProfUserDashboardStyle.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Java Script -->
+    <!-- AdminDashboard Click -->
+    <script>$(document).ready(function () {
+            // Όταν ο χρήστης κάνει κλικ σε κάποιο sidebar-item a
+            $('.sidebar-item a').on('click', function (event) {
+                // Αποτροπή του default behavior του anchor tag
+                event.preventDefault();
+                console.log('Item clicked'); // Προσθέστε αυτό για να δείτε αν εκτελείται
+                // Αφαιρέστε την κλάση 'active' από όλα τα sidebar-item a
+                $('.sidebar-item a').removeClass('active');
+
+                // Προσθέστε την κλάση 'active' στο στοιχείο που έγινε κλικ
+                $(this).addClass('active');
+            });
+            // Επιλέγουμε το στοιχείο του dashboard
+            var dashboardLink = document.querySelector('.sidebar-menu a[href="dashboard.html"]');
+
+            // Εάν βρεθεί το στοιχείο του dashboard
+            if (dashboardLink) {
+                // Προσθέτουμε την κλάση active
+                dashboardLink.classList.add('active');
+            }
+        });</script>
+    <!-- Redirects -->
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Αποτροπή της προεπιλεγμένης συμπεριφοράς του συνδέσμου
+
+                    const url = this.getAttribute('data-url'); // Λήψη του URL από το data-attribue
+                    if (url) {
+                        window.location.href = url; // Αλλαγή του URL της σελίδας
+                    }
+                });
+            });
+        });</script>
+</head>
+<body>
+    <input type="checkbox" id="nav-toggle" />
+
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="sidebar-item">
+                    <a href="dashboard.html">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/Reviews">
+                        <span class="las la-comment"></span>
+                        <span>Reviews</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/Responses">
+                        <span class="las la-reply"></span>
+                        <span>Responses</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/EditRestaurant">
+                        <span class="las la-edit"></span>
+                        <span>Edit Restaurant</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Visitors/Index">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <h2>
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                Professional User Dashboard
+            </h2>
+        </header>
+
+        <main>
+            <div class="cards">
+                <div class="card-single" onclick="redirectToReviews()">
+                    <div>
+                        <h1>@Model.ReviewsCount</h1>
+                        <span>Reviews</span>
+                    </div>
+                    <div>
+                        <span class="las la-comment"></span>
+                    </div>
+                </div>
+                <div class="card-single" onclick="redirectToResponses()">
+                    <div>
+                        <h1>@Model.ResponsesCount</h1>
+                        <span>Responses</span>
+                    </div>
+                    <div>
+                        <span class="las la-reply"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-grid">
+                <div class="projects">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Reviews</h3>
+                            <button>
+                                <a asp-action="Reviews" asp-controller="ProfessionalUsers" class="btn btn-primary">
+                                    See all <span class="las la-arrow-right"></span>
+                                </a>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.Reviews != null && Model.Reviews.Any())
+                            {
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Stars</th>
+                                                <th>Comment</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var review in Model.Reviews)
+                                            {
+                                                <tr>
+                                                    <td>@review.Username</td>
+                                                    <td>@review.Stars</td>
+                                                    <td>@review.Comment</td>
+                                                    <td>
+                                                        <a asp-controller="ProfessionalUsers" asp-action="ReviewDetails" asp-route-id="@review.Id" class="action-icon details-btn" title="Details">
+                                                            <span class="las la-info-circle"></span>
+                                                        </a> |
+                                                        <a href="#" data-type="review" class="action-icon delete-btn" title="Delete" data-review-id="@review.Id">
+                                                            <span class="las la-trash-alt"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="no-reviews-message">
+                                    No reviews found.
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="customers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Responses</h3>
+                            <button>
+                                <a asp-action="Responses" asp-controller="ProfessionalUsers" class="btn btn-primary">
+                                    See all <span class="las la-arrow-right"></span>
+                                </a>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.Responses != null && Model.Responses.Any())
+                            {
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ReviewId</th>
+                                                <th>Response</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var response in Model.Responses)
+                                            {
+                                                <tr>
+                                                    <td>@response.ReviewId</td>
+                                                    <td>@response.ResponseDetails</td> <!-- Χρησιμοποιήστε το πεδίο ResponseDetails αντί για Response -->
+                                                    <td>
+                                                        <a href="@Url.Action("ResponseDetails", "ProfessionalUsers", new { id = response.Id })" class="action-icon details-btn" title="Details">
+                                                            <span class="las la-info-circle"></span>
+                                                        </a> |
+                                                        <a href="#" data-type="response" class="action-icon delete-btn" title="Delete" data-response-id="@response.Id">
+                                                            <span class="las la-trash-alt"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="no-responses-message">
+                                    No responses found.
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function redirectToReviews() {
+        window.location.href = '@Url.Action("Reviews", "ProfessionalUsers")';
+    }
+
+    function redirectToResponses() {
+        window.location.href = '@Url.Action("Responses", "ProfessionalUsers")';
+    }
+
+    $(document).ready(function () {
+        $(".delete-btn").click(function (e) {
+            e.preventDefault();
+
+            var type = $(this).data("type");
+            var id = type === "review" ? $(this).data("review-id") : $(this).data("response-id");
+
+            var deleteUrl = type === "review" ? "@Url.Action("DeleteReviewConfirmed", "ProfessionalUsers")" : "@Url.Action("DeleteResponseConfirmed", "ProfessionalUsers")";
+
+            if (confirm("Are you sure you want to delete this " + type + "?")) {
+                $.ajax({
+                    type: "POST",
+                    url: deleteUrl,
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(type.charAt(0).toUpperCase() + type.slice(1) + " deleted successfully.");
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
+            }
+        });
+    });
+</script>

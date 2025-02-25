@@ -1,0 +1,218 @@
+﻿@{
+	var userNow = ViewBag.UserNow as RegisteredUser;
+
+    bool hasErrors = ViewBag.HasErrors ?? false; // default τιμή false
+    string errorMessage = ViewBag.ErrorMessage ?? string.Empty; //default τμή τίποτα
+}
+
+
+<link rel="stylesheet" href="~/css/AddRest-Form/material-design-iconic-font.css">
+<link rel="stylesheet" href="~/css/AddRest-Form/style-form.css">
+<link rel="stylesheet" href="~/css/navbar-footer.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/AddRest-Form/form-custom.css" asp-append-version="true" />
+
+<style>
+    
+</style>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+
+
+            <div class="d-flex align-items-center search2">
+                <a class="navbar-brand" asp-area="" asp-controller="RegisteredUsers" asp-action="Index" asp-route-userId="@userNow.Id">VresToRestau</a>
+            </div>
+
+
+            <div class="d-flex align-items-center justify-content-end">
+                <div class="dropdown">
+                    <img src="~/@userNow.ProfilePicture" alt="mdo" class="my-rounded-circle" onclick="toggleDropdown()">
+                </div>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+<div class="dropdown-menu right-align-lol" id="myDropdown">
+    <a class="navbar-brand " asp-area="" asp-controller="RegisteredUsers" asp-action="ViewProfile" asp-route-userId="@userNow.Id">@userNow.Username's Profile</a>
+    <a class="navbar-brand active when-inside " asp-area="" asp-controller="RegisteredUsers" asp-action="AddRestaurant" asp-route-userId="@userNow.Id">Add Restaurant</a>
+    <a class="navbar-brand " asp-area="" asp-controller="Visitors" asp-action="Index">Sign Out</a>
+</div>
+
+<div class="wrapper">
+    <form asp-action="AddRestaurant" method="post" id="wizard">
+        <!-- SECTION 1 -->
+        <h2></h2>
+        <section>
+            <div class="inner">
+                <div class="image-holder">
+                    <img src="~/images/test.jpeg" alt="">
+                </div>
+                <div class="form-content">
+                    <div class="form-header">
+                        <h3>Restaurant application form</h3>
+                    </div>
+                    <p>Please fill with your details</p>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <input type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" class="form-control" >
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" name="afm" id="afm" placeholder="Tax Identification Number" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <input type="text" name="email" id="email" placeholder="Email" class="form-control" >
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <input type="text" name="cuisine" id="cuisine" placeholder="Cuisine" class="form-control" >
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" name="hours" id="hours" placeholder="Opening Hours" class="form-control" >
+                        </div>
+                    </div>
+                    @if (hasErrors == true)
+                    {
+                        <div id="result" class="text-danger">@errorMessage</div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <h2></h2>
+        <section>
+            <div class="inner">
+                <div class="image-holder">
+                    <img src="~/images/test.jpeg" alt="">
+                </div>
+                <div class="form-content">
+                    <div class="form-header">
+                        <h3>Restaurant application form</h3>
+                    </div>
+                    <p>Please fill with additional info</p>
+                    <div class="form-row">
+                        <div class="form-holder">
+                            <input type="text" name="address" id="address" placeholder="Address" class="form-control" >
+                        </div>
+                    
+                    <div class="form-holder">
+                            <input type="text" name="location" id="location" placeholder="Location" class="form-control" >
+                        </div>
+                </div>
+                    <div class="form-row">
+
+                        <div class="form-holder">
+                            <input type="text" name="mapLink" id="mapLink" placeholder="Map Link" class="form-control" >
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" name="photosLink" id="photosLink" placeholder="Photos Link" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="select">
+
+                            @* <select class="form-control" id="exampleFormControlSelect1">
+                                <option selected>Price range...</option>
+                                <option name="priceRange" id="priceRangeInput" value="Cheap Eats-€">Cheap Eats-€</option>
+                                <option name="priceRange" id="priceRangeInput" value="Mid Range-€€">Mid Range-€€</option>
+                                <option name="priceRange" id="priceRangeInput" value="Fine Dining-€€€">Fine Dining-€€€</option>
+                            </select> *@
+
+                            <div class="form-holder">
+                                <div class="select-control" id="priceRangeSelect">
+                                    <span id="priceRangeText" onclick="changeValues()">Price Range</span>
+                                    <i class="zmdi zmdi-caret-down"></i>
+                                </div>
+                                
+                            </div>
+                            <ul class="dropdown" id="priceRangeDropdown">
+                                <li class="" data-value="Cheap Eats-€">Cheap Eats-€</li>
+                                <li class="" data-value="Mid Range-€€">Mid Range-€€</li>
+                                <li class="" data-value="Fine Dining-€€€">Fine Dining-€€€</li>
+                            </ul>
+                        </div>
+                        <div class="form-holder">
+                            <input type="text" name="menuLink" id="menuLink" placeholder="Menu Link" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="priceRange" id="priceRangeInput" value="">
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <h2></h2>
+        <section>
+            <div class="inner">
+                <div class="image-holder">
+                    <img src="~/images/test.jpeg" alt="">
+                </div>
+                <div class="form-content">
+                    
+                    <div class="form-header">
+                        <h3>Restaurant application form</h3>
+                    </div>
+                    <p>Write the description of the restaurant here!</p>
+                    <div class="form-row">
+                        <div class="form-holder w-100">
+                            <textarea name="details" id="details" placeholder="Description :" class="form-control" style="height: 99px;"></textarea>
+                        </div>
+                    </div>
+                    <p id="result" class="text-danger"></p>
+                </div>
+                
+            </div>
+            
+            
+        </section>
+        
+    </form>
+</div>
+
+<script src="~/js/form-check.js"></script>
+
+<script>
+
+    
+    
+    function changeValues() {
+        const dropdown = document.getElementById("priceRangeDropdown");
+
+
+        dropdown.querySelectorAll("li").forEach(function (item) {
+            item.addEventListener("click", function () {
+                // Remove the 'selected' class from all li elements
+                dropdown.querySelectorAll("li").forEach(function (li) {
+                    li.classList.remove("selected");
+                });
+
+                // Add the 'selected' class to the clicked li element
+                item.classList.add("selected");
+
+                // Get the value of the clicked li element and update text and input
+                var value = item.getAttribute("data-value");
+                document.getElementById("priceRangeText").innerText = value;
+                document.getElementById("priceRangeInput").value = value;
+
+                // Hide the dropdown
+                dropdown.style.display = "none";
+            });
+        });
+    }
+
+
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("myDropdown");
+        dropdownMenu.style.display = (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') ? 'block' : 'none';
+    }
+</script>

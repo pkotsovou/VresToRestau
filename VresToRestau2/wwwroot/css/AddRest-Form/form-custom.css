@@ -1,0 +1,57 @@
+﻿/* Αφαίρεση του περιγράμματος από τα στοιχεία φόρμας όταν είναι σε εστίαση */
+input:focus, textarea:focus, select:focus, button:focus {
+    outline: none;
+    border-color: #6d7f52; /* Χρώμα περιγράμματος σε εστίαση */
+    box-shadow: 0 0 5px #6d7f52;
+}
+
+.select-control {
+    border-bottom: 8px solid #6d7f52;
+    padding-left: 10px;
+}
+
+.dropdown {
+    border-radius: 8px; /* Προσθήκη στρογγυλεμένων γωνιών στο dropdown */
+}
+
+.form-holder i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.dropdown li:hover {
+    background-color: #6d7f52 !important; /* Χρώμα φόντου όταν είναι σε hover */
+    cursor:pointer;
+}
+
+select-control:focus {
+    background-color: #6d7f52; /* Χρώμα φόντου σε εστίαση */
+    color: #fff; /* Χρώμα κειμένου σε εστίαση */
+    box-shadow: 5px #6d7f52;
+}
+
+#priceRangeDropdown li.selected {
+    background-color: #E9E0CF;
+    font-weight: 500;
+}
+
+#result{
+    font-size:15px;
+    text-align:left;
+}
+
+form{
+    margin-bottom:4%;
+}
+
+/*Δυο αλλαγες μονο σε αυτη για το navbar*/
+
+.navbar {
+    padding: 0.5rem 1rem;
+    margin-bottom:0 !important;
+}
+.dropdown-menu {
+    margin-top: -1px;
+}

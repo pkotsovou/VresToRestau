@@ -1,0 +1,240 @@
+﻿@model VresToRestau2.Models.Restaurant
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Administrator</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Admin/AdminPagesStyle.css">
+    <!-- Προσθήκη jQuery από CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Όταν ο χρήστης κάνει κλικ σε κάποιο sidebar-item a
+            $('.sidebar-item a').on('click', function (event) {
+                // Αποτροπή του default behavior του anchor tag
+                event.preventDefault();
+                console.log('Item clicked'); // Προσθέστε αυτό για να δείτε αν εκτελείται
+                // Αφαιρέστε την κλάση 'active' από όλα τα sidebar-item a
+                $('.sidebar-item a').removeClass('active');
+
+                // Προσθέστε την κλάση 'active' στο στοιχείο που έγινε κλικ
+                $(this).addClass('active');
+            });
+            // Επιλέγουμε το στοιχείο του dashboard
+            var dashboardLink = document.querySelector('.sidebar-menu a[href="user.html"]');
+
+            // Εάν βρεθεί το στοιχείο του dashboard
+            if (dashboardLink) {
+                // Προσθέτουμε την κλάση active
+                dashboardLink.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Αποτροπή της προεπιλεγμένης συμπεριφοράς του συνδέσμου
+
+                    const url = this.getAttribute('data-url'); // Λήψη του URL από το data-attribue
+                    if (url) {
+                        window.location.href = url; // Αλλαγή του URL της σελίδας
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <input type="checkbox" id="nav-toggle" />
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/AdminsDashboard">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/RegisteredUsers">
+                        <span class="las la-users"></span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="user.html" data-url="/Admins/Restaurants">
+                        <span class="las la-utensils"></span>
+                        <span>Restaurants</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/Requests">
+                        <span class="las la-clipboard-list"></span>
+                        <span>Requests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Visitors/Index">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h2>
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                Admin Dashboard
+            </h2>
+        </header>
+
+        <main>
+            <div class="recent-grid">
+                <div class="customers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Restaurant Details</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="back">Attribute</th>
+                                        <th class="back">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Restaurant Name:</th>
+                                        <td>@Html.DisplayFor(model => model.RestaurantName)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email:</th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Email)
+                                            <a href="mailto:youremail@example.com" title="Email">
+                                                <span class="las la-envelope emailico"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Afm:</th>
+                                        <td>@Html.DisplayFor(model => model.Afm)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Location:</th>
+                                        <td>@Html.DisplayFor(model => model.Location), @Html.DisplayFor(model => model.Address)</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Map Link:</th>
+                                        <td>
+                                            @{
+                                                var maplink = @Html.DisplayFor(model => model.MapLink);
+                                            }
+                                            <div class="col-4 map-container">
+                                                <iframe src="@maplink" width="200" height="100" style="border: 0; border-radius: 17px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cuisine:</th>
+                                        <td>@Html.DisplayFor(model => model.Cuisine)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone Number:</th>
+                                        <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Opening Hours:</th>
+                                        <td>@Html.DisplayFor(model => model.Hours)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Menu Link:</th>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(Model.MenuLink))
+                                            {
+                                                <a href="@Model.MenuLink" target="_blank">@Model.MenuLink</a>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Stars:</th>
+                                        <td>
+                                            @{
+                                                int fullStars = Model.Stars;
+                                                int emptyStars = 5 - fullStars;
+                                            }
+                                            @for (int j = 0; j < fullStars; j++)
+                                            {
+                                                <i class="fas fa-star text-yellow"></i>
+                                            }
+                                            @for (int j = 0; j < emptyStars; j++)
+                                            {
+                                                <i class="far fa-star text-yellow"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Details:</th>
+                                        <td>@Html.DisplayFor(model => model.Details)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price:</th>
+                                        <td>@Html.DisplayFor(model => model.Price)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status:</th>
+
+                                        @if (Model.Status == "pending")
+                                        {
+                                            <td class="status pending"><span>@Model.Status</span></td>
+                                        }
+                                        else if (Model.Status == "almost ready")
+                                        {
+                                            <td class="status almost"><span>@Model.Status</span></td>
+                                        }
+                                        else if (Model.Status == "rejected")
+                                        {
+                                            <td class="status rejected"><span>@Model.Status</span></td>
+                                        }
+                                        else if (Model.Status == "accepted")
+                                        {
+                                            <td class="status almost ready"><span>@Model.Status</span></td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</>

@@ -1,0 +1,46 @@
+﻿#myBtnContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Ίσα περιθώρια μεταξύ των κουμπιών */
+    padding: 20px; /* Εσωτερικό περιθώριο για ομορφότερη εμφάνιση */
+}
+
+.btn {
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;
+    width: 200px; /* Πλάτος κουμπιών */
+    padding: 10px 20px; /* Εσωτερικό περιθώριο κουμπιών */
+    font-weight: bold;
+}
+
+    .btn.almost {
+        background-color: #28a745; /* Χρώμα για almost ready status */
+        color: #f9f6f1; /* Χρώμα γραμματοσειράς */
+        border: 1px solid #28a745;
+    }
+
+    .btn.pending {
+        background-color: #ffc107; /* Χρώμα για pending status */
+        color: #3B3B3B; /* Χρώμα γραμματοσειράς */
+        border: 1px solid #ffc107;
+    }
+
+    .btn.rejected {
+        background-color: #dc3545; /* Χρώμα για rejected status */
+        color: #f9f6f1; /* Χρώμα γραμματοσειράς */
+        border: 1px solid #dc3545;
+    }
+
+    /* Add a dark background to the active button */
+    .btn.active {
+        background-color: #333333; /* Χρώμα για το ενεργό κουμπί */
+        color: #f9f6f1; /* Χρώμα γραμματοσειράς */
+        border: 1px solid #333333;
+    }
+
+.no-restaurants-message {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 15px;
+}

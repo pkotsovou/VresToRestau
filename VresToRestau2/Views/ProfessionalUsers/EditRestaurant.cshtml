@@ -1,0 +1,200 @@
+﻿@model VresToRestau2.Models.Restaurant
+
+@{
+    ViewData["Title"] = "Edit Restaurant";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        input[readonly], textarea[readonly] {
+            border: none;
+            background-color: transparent;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 0;
+            line-height: inherit;
+            width: 100%;
+            color: inherit;
+        }
+
+        input.edit-mode, textarea.edit-mode {
+            border: 2px solid #f9f6f1;
+        }
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Professional User</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/ProfUser/ProfUserPagesstyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#editButton').click(function () {
+                enableEditing();
+            });
+
+            $('#saveButton').click(function () {
+                // Submit the form with the updated values
+                $('#editForm').submit();
+            });
+
+            function enableEditing() {
+                $('input[type="text"], textarea').prop('readonly', false);
+                $('select').prop('disabled', false);
+                $('input[type="text"], textarea').addClass('edit-mode');
+                $('#saveButton, #previewButton').show();
+                $('#editButton').hide();
+                $('button:not(#saveButton, #previewButton)').hide();
+            }
+        });
+    </script>
+</head>
+<body>
+    <input type="checkbox" id="nav-toggle" />
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/Dashboard">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/Reviews">
+                        <span class="las la-comment"></span>
+                        <span>Reviews</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/ProfessionalUsers/Responses">
+                        <span class="las la-reply"></span>
+                        <span>Responses</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="editrestaurant.html" data-url="/ProfessionalUsers/EditRestaurant">
+                        <span class="las la-edit"></span>
+                        <span>Edit Restaurant</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Visitors/Index">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h2>
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                Admin Dashboard
+            </h2>
+        </header>
+
+        <main>
+            <div class="recent-grid">
+                <div class="customers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Restaurant Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="editForm" method="post" asp-action="SaveChanges" asp-controller="ProfessionalUsers">
+                                @* Hidden field for Id *@
+                                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="back">Attribute</th>
+                                            <th class="back">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Restaurant Name:</th>
+                                            <td><input type="text" id="RestaurantName" name="RestaurantName" value="@Model.RestaurantName" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email:</th>
+                                            <td><input type="text" id="Email" name="Email" value="@Model.Email" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Afm:</th>
+                                            <td><input type="text" id="Afm" name="Afm" value="@Model.Afm" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Address:</th>
+                                            <td><textarea id="Address" name="Address" readonly>@Model.Address</textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Location:</th>
+                                            <td><input type="text" id="Location" name="Location" value="@Model.Location" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Map Link:</th>
+                                            <td><input type="text" id="MapLink" name="MapLink" value="@Model.MapLink" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cuisine:</th>
+                                            <td><input type="text" id="Cuisine" name="Cuisine" value="@Model.Cuisine" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone Number:</th>
+                                            <td><input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Opening Hours:</th>
+                                            <td><input type="text" id="Hours" name="Hours" value="@Model.Hours" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Menu Link:</th>
+                                            <td><input type="text" id="MenuLink" name="MenuLink" value="@Model.MenuLink" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Stars:</th>
+                                            <td><input type="text" id="Stars" name="Stars" value="@Model.Stars" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Details:</th>
+                                            <td><textarea id="Details" name="Details" readonly>@Model.Details</textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price:</th>
+                                            <td><input type="text" id="Price" name="Price" value="@Model.Price" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status:</th>
+                                            <td><input type="text" id="Status" name="Status" value="@Model.Status" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br><br>
+                                <button type="button" id="editButton">Edit</button>
+                                <button type="submit" id="saveButton" style="display:none;">Save</button>
+                                <button type="submit" id="previewButton" style="display:none;">Preview</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

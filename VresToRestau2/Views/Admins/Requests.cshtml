@@ -1,0 +1,264 @@
+﻿@model IEnumerable<VresToRestau2.Models.Restaurant>
+@{
+    ViewData["Title"] = "Requests";
+}
+@{
+    Layout = null;
+}
+@{
+    var filteredRestaurants = Model.Where(r => r.Status == "pending" || r.Status == "almost ready" || r.Status == "rejected").ToList();
+}
+<!DOCTYPE html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width device-width,initial-scale=1,maximum-scale=1" />
+    <title>Administrator</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/Admin/AdminPagesStyle.css">
+    <link rel="stylesheet" href="~/css/Admin/RequestButton.css">
+
+    <!-- Προσθήκη jQuery από CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Όταν ο χρήστης κάνει κλικ σε κάποιο sidebar-item a
+            $('.sidebar-item a').on('click', function (event) {
+                // Αποτροπή του default behavior του anchor tag
+                event.preventDefault();
+                console.log('Item clicked'); // Προσθέστε αυτό για να δείτε αν εκτελείται
+                // Αφαιρέστε την κλάση 'active' από όλα τα sidebar-item a
+                $('.sidebar-item a').removeClass('active');
+
+                // Προσθέστε την κλάση 'active' στο στοιχείο που έγινε κλικ
+                $(this).addClass('active');
+            });
+            // Επιλέγουμε το στοιχείο του dashboard
+            var dashboardLink = document.querySelector('.sidebar-menu a[href="user.html"]');
+
+            // Εάν βρεθεί το στοιχείο του dashboard
+            if (dashboardLink) {
+                // Προσθέτουμε την κλάση active
+                dashboardLink.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Αποτροπή της προεπιλεγμένης συμπεριφοράς του συνδέσμου
+
+                    const url = this.getAttribute('data-url'); // Λήψη του URL από το data-attribue
+                    if (url) {
+                        window.location.href = url; // Αλλαγή του URL της σελίδας
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        function filterSelection(status) {
+            var rows = document.querySelectorAll("tbody tr");
+            var hasVisibleRows = false;
+
+            rows.forEach(function (row) {
+                if (status === 'all') {
+                    row.style.display = '';
+                    hasVisibleRows = true;
+                } else {
+                    var cell = row.querySelector('.status span');
+                    if (cell && cell.textContent.toLowerCase() === status) {
+                        row.style.display = '';
+                        hasVisibleRows = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+            // Ενημερώνουμε την ενεργή κλάση στα κουμπιά
+            var btnContainer = document.getElementById("myBtnContainer");
+            var btns = btnContainer.getElementsByClassName("btn");
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove("active");
+            }
+            event.currentTarget.classList.add("active");
+
+            // Εμφάνιση ή απόκρυψη του μηνύματος
+            var noRestaurantsMessage = document.getElementById("no-restaurants-message");
+            if (hasVisibleRows) {
+                noRestaurantsMessage.style.display = 'none';
+            } else {
+                var message = "";
+                if (status === 'pending') {
+                    message = "No pending requests";
+                } else if (status === 'almost ready') {
+                    message = "No almost ready requests";
+                } else if (status === 'rejected') {
+                    message = "No rejected requests";
+                } else {
+                    message = "No restaurants with any status found.";
+                }
+                noRestaurantsMessage.textContent = message;
+                noRestaurantsMessage.style.display = 'block';
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <input type="checkbox" id="nav-toggle" />
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>VresToRestau</span></h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/AdminsDashboard">
+                        <span class="las la-home"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/RegisteredUsers">
+                        <span class="las la-users"></span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Admins/Restaurants">
+                        <span class="las la-utensils"></span>
+                        <span>Restaurants</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="user.html" data-url="/Admins/Requests">
+                        <span class="las la-clipboard-list"></span>
+                        <span>Requests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" data-url="/Visitors/Index">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>LogOut</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <header>
+            <h2>
+                <label for="nav-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                Admin Dashboard
+            </h2>
+        </header>
+
+        <main>
+            <!-- Control buttons -->
+            <div id="myBtnContainer">
+                <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+                <button class="btn almost" onclick="filterSelection('almost ready')">Almost ready requests</button>
+                <button class="btn pending" onclick="filterSelection('pending')">Pending requests</button>
+                <button class="btn rejected" onclick="filterSelection('rejected')">Rejected requests</button>
+            </div>
+            <br />
+            <div class="recent-grid">
+                <div class="customers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Requests</h3>
+                        </div>
+
+                        <div class="card-body">
+                            @if (filteredRestaurants.Any())
+                            {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Restaurant Name</th>
+                                            <th>Status</th>
+                                            <th>Details</th>
+                                            <th>Preview</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var restaurant in filteredRestaurants)
+                                        {
+                                            <tr>
+                                                <!-- Όνομα του εστιατορίου -->
+                                                <td class="column-username">@restaurant.RestaurantName</td>
+                                                <!--Status-->
+                                                @if (restaurant.Status == "pending")
+                                                {
+                                                    <td class="status pending"><span>Pending</span></td>
+                                                }
+                                                else if (restaurant.Status == "almost ready")
+                                                {
+                                                    <td class="status almost"><span>Almost Ready</span></td>
+                                                }
+                                                else if (restaurant.Status == "rejected")
+                                                {
+                                                    <td class="status rejected"><span>Rejected</span></td>
+                                                }
+                                                <!-- λεπτομέρειες -->
+                                                <td class="column-actions">
+                                                    <!-- Σύνδεσμος για λεπτομέρειες του εστιατορίου -->
+                                                    <a asp-controller="Admins" asp-action="RestaurantDetails" asp-route-id="@restaurant.Id" class="action-icon details-btn" title="Details">
+                                                        <span class="las la-info-circle"></span>
+                                                    </a>
+                                                </td>
+                                                <td class="column-actions">
+                                                    <!-- Σύνδεσμος για λεπτομέρειες του εστιατορίου -->
+                                                    <a asp-controller="Restaurants" asp-action="Details" asp-route-id="@restaurant.Id" class="action-icon details-btn" title="Preview">
+                                                        <span class="las la-eye"></span>
+                                                    </a>
+                                                </td>
+                                                <!-- Φόρμα ενεργειών -->
+                                                <td class="column-actions">
+                                                    <form id="form-@restaurant.Id" asp-controller="Admins" asp-action="UpdateStatus" method="post">
+                                                        <input type="hidden" name="restaurantId" value="@restaurant.Id" />
+                                                        <input type="hidden" name="action" id="action-@restaurant.Id" value="" />
+                                                        <input type="hidden" name="source" value="Requests" /> <!-- Προέλευση του αιτήματος -->
+
+                                                        <a href="#" class="action-icon correct-btn" title="Approve" onclick="submitForm('@restaurant.Id', 'approve')">
+                                                            <span class="las la-check"></span>
+                                                        </a>|
+                                                        <a href="#" class="action-icon reject-btn" title="Reject" onclick="submitForm('@restaurant.Id', 'reject')">
+                                                            <span class="las la-times"></span>
+                                                        </a>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            <div id="no-restaurants-message" class="no-restaurants-message" style="display: none;">No restaurants with any status found.</div>
+                            <script>
+                                function submitForm(restaurantId, action) {
+                                    document.getElementById('action-' + restaurantId).value = action;
+                                    document.getElementById('form-' + restaurantId).submit();
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

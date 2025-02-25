@@ -1,0 +1,343 @@
+﻿@{
+	var userNow = ViewBag.UserNow as RegisteredUser;
+	var statusUpdate = ViewBag.StatusUpdate as List<Restaurant>;
+
+	bool hasErrors = ViewBag.HasErrors ?? false; // default τιμή false
+	string errorMessage = ViewBag.ErrorMessage ?? string.Empty; //default τιμή τίποτα
+
+	string[] message = new string[statusUpdate?.Count ?? 0];
+
+	if (statusUpdate != null)
+	{
+		for (int i = 0; i < statusUpdate.Count; i++)
+		{
+			if (statusUpdate[i].Status == "pending")
+			{
+				message[i] = "Your application for adding " + statusUpdate[i].RestaurantName + " is under review. We will inform you of any updates.";
+			}
+			else if (statusUpdate[i].Status == "almost ready")
+			{
+				message[i] = "You are one step away of adding " + statusUpdate[i].RestaurantName + " in our page. Log in with the Restaurant Name: " + statusUpdate[i].RestaurantName + " and your current password.";
+			}
+			else if (statusUpdate[i].Status == "rejected")
+			{
+				message[i] = "Unfortunately your application got rejected.";
+			}
+		}
+	}
+
+}
+
+
+<link rel="stylesheet" href="~/css/navbar-footer.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+
+<header>
+	<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+		<div class="container-fluid">
+
+
+			<div class="d-flex align-items-center search2">
+				<a class="navbar-brand" asp-area="" asp-controller="RegisteredUsers" asp-action="Index" asp-route-userId="@userNow.Id">VresToRestau</a>
+			</div>
+
+
+			<div class="d-flex align-items-center justify-content-end">
+				<div class="dropdown">
+					<img src="~/@userNow.ProfilePicture" alt="mdo" class="my-rounded-circle" onclick="toggleDropdown()">
+				</div>
+			</div>
+
+
+		</div>
+	</nav>
+</header>
+
+<div class="dropdown-menu right-align-lol" id="myDropdown">
+	<a class="navbar-brand active when-inside" asp-area="" asp-controller="RegisteredUsers" asp-action="ViewProfile" asp-route-userId="@userNow.Id">@userNow.Username's Profile</a>
+	<a class="navbar-brand " asp-area="" asp-controller="RegisteredUsers" asp-action="AddRestaurant" asp-route-userId="@userNow.Id">Add Restaurant</a>
+	<a class="navbar-brand " asp-area="" asp-controller="Visitors" asp-action="Index">Sign Out</a>
+</div>
+
+
+@* <div class="container">
+	<main role="main" class="pb-3">
+
+	</main>
+</div> *@
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			
+			<div class="my-5">
+				<h3>My Profile</h3>
+				<hr>
+			</div>
+			
+
+			<form class="file-upload" id="profileForm" asp-action="ViewProfile" method="post" onsubmit="return checkAnswers()">
+				<div class="row mb-5 gx-5">
+					<!-- Contact detail -->
+					<div class="col-xxl-8 mb-5 mb-xxl-0">
+						<div class="bg-secondary-soft px-4 py-5 rounded">
+							<div class="row g-3">
+								<h4 class="mb-4 mt-0">Your details</h4>
+								@if (hasErrors)
+								{
+									<div class="" id="validation-summary">
+
+										<div class="text-danger">@errorMessage</div>
+
+									</div>
+								}
+
+								@* Username *@
+								<div class="col-md-6">
+									<label class="form-label" id="usernameLabel">Username</label>
+									<input type="text" name="username" class="form-control" id="username" placeholder="" aria-label="Username" value="@userNow.Username" oninput="addAsterisk('usernameLabel', this)" required>
+								</div>
+								@* Email *@
+								<div class="col-md-6">
+									<label for="inputEmail4" class="form-label">Email</label>
+									<input name="email" class="form-control" id="email" aria-label="Email" value="@userNow.Email" oninput="addAsterisk('emailLabel', this)" required>
+								</div>
+								@* Gender *@
+								<div class="col-md-6">
+									<label class="form-label" id="genderLabel">Gender</label>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="gender" id="gender" value="not_defined" oninput="addAsterisk('genderLabel', this)" onclick="selectOption('not_defined')" @if (userNow.Gender == "not_defined")
+										{
+											<text>checked</text>
+										}>
+										<label class="form-check-label" for="not-defined">
+											Not defined
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="gender" id="gender" value="Female" oninput="addAsterisk('genderLabel', this)" onclick="selectOption('Female')" @if (userNow.Gender == "Female")
+										{
+											<text>checked</text>
+										}>
+										<label class="form-check-label" for="female">
+											Female
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="gender" id="gender" value="Male" oninput="addAsterisk('genderLabel', this)" onclick="selectOption('Male')" @if (userNow.Gender == "Male")
+										{
+											<text>checked</text>
+										}>
+										<label class="form-check-label" for="male">
+											Male
+										</label>
+									</div>
+
+								</div>
+							</div>
+							<br />
+							<div class="row g-3">
+								<h4 class="m-4">Change Password</h4>
+								<!-- Old password -->
+								<div class="col-md-6">
+									<label for="oldPassword1" class="form-label">Old password *</label>
+									<div class="extra1">
+										<input type="password" class="form-control" name="oldPassword" id="oldPassword" required>
+										<div class="extra2">
+											<img src="~/images/closed.png" id="eyeicon1" />
+										</div>
+									</div>
+								</div>
+								<!-- New password -->
+								<div class="col-md-6">
+									<label for="newPassword" class="form-label">New password *</label>
+									<div class="extra1">
+										<input type="password" class="form-control" name="newPassword" id="newPassword" required>
+										<div class="extra2">
+											<img src="~/images/closed.png" id="eyeicon2" />
+										</div>
+									</div>
+								</div>
+								<!-- Confirm password -->
+								<div class="col-md-12">
+									<label for="conf_password" class="form-label">Confirm Password *</label>
+									<div class="extra1">
+										<input type="password" class="form-control" name="conf_password" id="conf_password" required>
+										<div class="extra2">
+											<img src="~/images/closed.png" id="eyeicon3" />
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+							<p id="result" class="text-danger"></p>
+
+						</div>
+
+					</div>
+
+					<!-- Upload profile picture-->
+					<div class="col-xxl-4">
+						<div class="bg-secondary-soft px-4 py-5 rounded">
+							<div class="row g-3">
+								<h4 class="mb-4 mt-0">Profile photo</h4>
+								<div class="text-center">
+
+									<img id="profileImage" src="~/@userNow.ProfilePicture" alt="Profile Image" class="img-fluid">
+									<input type="hidden" id="selectedOption" name="profilePhoto" value="@userNow.ProfilePicture">
+
+								</div>
+							</div>
+						</div>
+
+						<!-- button -->
+						<div class="gap-3 d-md-flex justify-content-center text-center">
+							<button type="submit" id="updateProfileButton" class="btn btn-primary btn-lg">Update profile</button>
+							<button type="button" class="btn btn-danger btn-lg">Delete profile</button>
+						</div>
+					</div>
+
+				</div>
+
+			</form> <!-- Form END -->
+			@if (statusUpdate != null && statusUpdate.Count > 0)
+			{
+				<div class="list-group col-8">
+					@for (int i = 0; i < statusUpdate.Count; i++)
+					{
+						<div class="css-group-what">
+							<div class="list-group-item flex-column align-items-start">
+								<div class="d-flex w-100 justify-content-between">
+									<h5 class="mb-1">@statusUpdate[i].RestaurantName</h5>
+									<small>Status: @statusUpdate[i].Status</small>
+								</div>
+								<p class="mb-1">
+									@if (!string.IsNullOrEmpty(message[i]))
+									{
+										@message[i]
+									}
+								</p>
+								@* <small class="danger">Click to Remove your application.</small> *@
+							</div>
+							<form id="deleteForm" asp-action="DeleteRequest" asp-controller="RegisteredUsers" method="post">
+								<input type="hidden" name="id" value="@statusUpdate[i].Id" />
+								<button type="submit" id="deleteButton" class="btn btn-danger btn-sm">Remove</button>
+							</form>
+						</div>
+					}
+				</div>
+
+			}
+			else
+			{
+				<div class="alert col-8">
+					No request for adding a restaurant yet!
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+<script src="~/js/profile-check.js"></script>
+
+<script>
+
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get the validation summary element
+		var validationSummary = document.getElementById("validation-summary");
+
+		if (validationSummary.style.display != "none") {
+			setTimeout(function () {
+				validationSummary.innerHTML = "";
+			}, 10000);
+		}
+		validationSummary.style.display = "unset";
+
+	});
+
+	function toggleDropdown() {
+		var dropdownMenu = document.getElementById("myDropdown");
+		dropdownMenu.style.display = (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') ? 'block' : 'none';
+	}
+
+	function selectOption(option) {
+
+		var imageElement = document.getElementById("profileImage");
+		var hiddenInputElement = document.getElementById("selectedOption");
+
+		if (option === 'not_defined') {
+			imageElement.src = "/images/user.png";
+			hiddenInputElement.value = "images/user.png";
+		} else if (option === 'Female') {
+			imageElement.src = "/images/userw.png";
+			hiddenInputElement.value = "images/userw.png";
+		} else if (option === 'Male') {
+			imageElement.src = "/images/userm.png";
+			hiddenInputElement.value = "images/userm.png";
+		}
+	}
+
+	let eyeicon1 = document.getElementById("eyeicon1");
+	let oldPassword = document.getElementById("oldPassword");
+	let eyeicon2 = document.getElementById("eyeicon2");
+	let newPassword = document.getElementById("newPassword");
+	let eyeicon3 = document.getElementById("eyeicon3");
+	let conf_password = document.getElementById("conf_password");
+
+	eyeicon1.onclick = function () {
+		if (oldPassword.type == "password") {
+			oldPassword.type = "text";
+			eyeicon1.src = "/images/opened.png";
+		} else {
+			oldPassword.type = "password";
+			eyeicon1.src = "/images/closed.png";
+		}
+	}
+
+	eyeicon2.onclick = function () {
+		if (newPassword.type == "password") {
+			newPassword.type = "text";
+			eyeicon2.src = "/images/opened.png";
+		} else {
+			newPassword.type = "password";
+			eyeicon2.src = "/images/closed.png";
+		}
+	}
+
+	eyeicon3.onclick = function () {
+		if (conf_password.type == "password") {
+			conf_password.type = "text";
+			eyeicon3.src = "/images/opened.png";
+		} else {
+			conf_password.type = "password";
+			eyeicon3.src = "/images/closed.png";
+		}
+	}
+
+	function addAsterisk(labelId, inputField) {
+		var label = document.getElementById(labelId);
+		if (inputField.value.trim() === "") {
+			label.innerText = label.innerText.replace(" *", "");
+		} else {
+			if (!label.innerText.endsWith(" *")) {
+				label.innerText += " *";
+			}
+		}
+	}
+
+	
+
+</script>
+
+		@* // Handle delete button click
+	document.getElementById('deleteButton').addEventListener('click', function (event) {
+		// Submit delete form
+		document.getElementById('deleteForm').submit();
+	});
+
+	// Handle update profile button click
+	document.getElementById('updateProfileButton').addEventListener('click', function (event) {
+		// Submit profile form
+		document.getElementById('profileForm').submit();
+	}); *@

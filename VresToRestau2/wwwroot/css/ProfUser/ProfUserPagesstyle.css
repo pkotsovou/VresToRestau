@@ -1,0 +1,374 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300:400:500:600&display=swap');
+
+/* Ορισμός μεταβλητών χρωμάτων για ευκολία επαναχρησιμοποίησης */
+:root {
+    --main-color: #3B3B3B; /* Κύριο χρώμα */
+    --color-dark: #1D2231; /* Σκούρο blue χρώμα */
+    --text-grey: #8390A2; /* Γκρι χρώμα για κείμενο */
+    --background-color: #f9f6f1; /* Χρώμα φόντου */
+}
+
+/* Καθολικό reset CSS για την εξάλειψη προεπιλεγμένων στυλ των browsers */
+* {
+    margin: 0; /* Εξάλειψη περιθωρίων */
+    padding: 0; /* Εξάλειψη αποστάσεων */
+    box-sizing: border-box; /* Συμπερίληψη περιγραμμάτων και padding στο συνολικό μέγεθος */
+    list-style-type: none; /* Εξάλειψη bullets από λίστες */
+    text-decoration: none; /* Εξάλειψη υπογραμμίσεων */
+    font-family: 'Poppins', sans-serif; /* Ορισμός γραμματοσειράς */
+}
+
+/* Στυλ για το σώμα της σελίδας */
+body {
+    background: var(--background-color); /* Χρώμα φόντου */
+}
+
+/**/
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+/**/
+
+/* Sidebar */
+.sidebar {
+    position: fixed; /* Σταθερή θέση */
+    left: 0; /* Τοποθέτηση αριστερά */
+    top: 0; /* Τοποθέτηση στην κορυφή */
+    height: 100%; /* Ύψος 100% του viewport */
+    width: 300px; /* Πλάτος 300px */
+    background-color: var(--main-color); /* Χρώμα φόντου */
+    z-index: 100; /* Σειρά z-index για επικάλυψη */
+    transition: width 300ms; /* Μετάβαση αλλαγής πλάτους */
+}
+
+.sidebar-brand {
+    height: 90px; /* Ύψος 90px */
+    padding: 1rem 0rem 1rem 2rem; /* Εσωτερικά περιθώρια */
+    color: #fff; /* Χρώμα κειμένου */
+}
+
+    .sidebar-brand span {
+        display: inline-block; /* Εμφάνιση ως inline block */
+        padding-right: 1rem; /* Εσωτερικό περιθώριο δεξιά */
+    }
+
+.sidebar-menu {
+    margin-top: 1rem; /* Εξωτερικό περιθώριο πάνω */
+}
+
+    .sidebar-menu ul {
+        list-style: none; /* Κατάργηση bullets από την λίστα */
+    }
+
+    .sidebar-menu li {
+        width: 100%; /* Πλάτος 100% */
+        margin-bottom: 1.7rem; /* Εξωτερικό περιθώριο κάτω */
+        padding-left: 1rem; /* Εσωτερικό περιθώριο αριστερά */
+    }
+
+    .sidebar-menu a {
+        padding-left: 1rem; /* Εσωτερικό περιθώριο αριστερά */
+        display: block; /* Εμφάνιση ως block */
+        color: #fff; /* Χρώμα κειμένου */
+        font-size: 1.1rem; /* Μέγεθος γραμματοσειράς */
+    }
+
+        .sidebar-menu a.active {
+            background: var(--background-color); /* Χρώμα φόντου όταν είναι ενεργό */
+            padding-top: 1rem; /* Εσωτερικό περιθώριο πάνω */
+            padding-bottom: 1rem; /* Εσωτερικό περιθώριο κάτω */
+            color: var(--main-color); /* Χρώμα γραμματοσειράς όταν είναι ενεργό */
+            border-radius: 30px 0px 0px 30px; /* Στρογγυλεμένες γωνίες */
+        }
+
+/* CSS για το active state */
+.sidebar-item a.active {
+    background-color: var(--background-color); /* Φόντο όταν είναι ενεργό */
+    padding-top: 1rem; /* Εσωτερικό περιθώριο πάνω */
+    padding-bottom: 1rem; /* Εσωτερικό περιθώριο κάτω */
+    color: var(--main-color); /* Χρώμα γραμματοσειράς όταν είναι ενεργό */
+    border-radius: 30px 0px 0px 30px; /* Στρογγυλεμένες γωνίες */
+}
+
+.sidebar-menu a span:first-child {
+    font-size: 1.5rem; /* Μέγεθος γραμματοσειράς για το πρώτο span */
+    padding-right: 1rem; /* Εσωτερικό περιθώριο δεξιά */
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 300px; /* Μετατοπίζει το περιεχόμενο προς τα δεξιά κατά το πλάτος του sidebar */
+    padding: 20px; /* Εσωτερικά περιθώρια */
+    transition: margin-left 300ms; /* Μετάβαση αλλαγής περιθωρίου αριστερά */
+}
+
+.card {
+    background-color: #fff; /* Χρώμα φόντου */
+    border-radius: 5px; /* Στρογγυλεμένες γωνίες */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Σκιά */
+    padding: 20px; /* Εσωτερικά περιθώρια */
+    margin-bottom: 20px; /* Εξωτερικό περιθώριο κάτω */
+}
+
+.card-header {
+    border-bottom: 1px solid #eee; /* Γραμμή κάτω */
+    margin-bottom: 10px; /* Εξωτερικό περιθώριο κάτω */
+    padding-bottom: 10px; /* Εσωτερικό περιθώριο κάτω */
+}
+
+    .card-header h3 {
+        margin-bottom: 10px; /* Εξωτερικό περιθώριο κάτω */
+    }
+
+.card-body {
+    overflow-x: auto; /* Επιτρέπει την οριζόντια κύλιση αν χρειαστεί */
+}
+
+.table {
+    width: 100%; /* Πλάτος 100% */
+    border-collapse: collapse; /* Συγχώνευση γραμμών και κελιών */
+}
+
+    .table th,
+    .table td {
+        padding: 10px; /* Εσωτερικά περιθώρια */
+        border-bottom: 1px solid #eee; /* Γραμμή κάτω */
+        text-align: left; /* Ευθυγράμμιση αριστερά */
+    }
+
+        /* Χρώμα φόντου για την κεφαλίδα */
+        .table th.back {
+            background-color: #f4f4f4;
+        }
+
+        /* Πλάτος πρώτης στήλης */
+        .table td:first-child,
+        .table th:first-child {
+            width: 50%;
+        }
+
+        /* Πλάτος τελευταίας στήλης */
+        .table th:last-child,
+        .table td:last-child {
+            width: 50%;
+        }
+
+/* Στυλ για τα εικονίδια */
+.action-icon {
+    margin-right: 10px; /* Εξωτερικό περιθώριο δεξιά */
+    text-decoration: none; /* Αφαίρεση υπογράμμισης */
+    color: #333; /* Χρώμα εικονιδίου */
+    transition: color 0.3s; /* Μετάβαση χρώματος */
+}
+
+    .action-icon:hover {
+        color: var(--main-color); /* Χρώμα εικονιδίου κατά το hover */
+    }
+
+    .action-icon span {
+        font-size: 1.5rem; /* Μέγεθος γραμματοσειράς */
+    }
+
+.no-users-message, .no-restaurants-message {
+    text-align: center; /* Κεντράρισμα κειμένου */
+    margin-top: 20px; /* Εξωτερικό περιθώριο πάνω */
+}
+
+/*Navigation Bar*/
+#nav-toggle:checked + .sidebar {
+    width: 70px; /* Μείωση πλάτους sidebar */
+}
+
+    #nav-toggle:checked + .sidebar .sidebar-brand,
+    #nav-toggle:checked + .sidebar li {
+        padding-left: 1rem; /* Εσωτερικό περιθώριο αριστερά */
+        text-align: center; /* Κεντράρισμα κειμένου */
+    }
+
+        #nav-toggle:checked + .sidebar li a {
+            padding-left: 0rem; /* Αφαίρεση εσωτερικού περιθωρίου αριστερά */
+        }
+
+            #nav-toggle:checked + .sidebar .sidebar-brand h2 span:last-child,
+            #nav-toggle:checked + .sidebar li a span:last-child {
+                display: none; /* Απόκρυψη τελευταίου span */
+            }
+
+#nav-toggle:checked ~ .main-content {
+    margin-left: 70px; /* Μείωση περιθωρίου αριστερά του περιεχομένου */
+}
+
+    #nav-toggle:checked ~ .main-content header {
+        width: calc(100% - 70px); /* Υπολογισμός πλάτους */
+        left: 70px; /* Μετατόπιση αριστερά */
+    }
+
+header {
+    background: #fff; /* Χρώμα φόντου */
+    display: flex; /* Ευέλικτη διάταξη */
+    justify-content: space-between; /* Κατανομή χώρου μεταξύ στοιχείων */
+    padding: 1rem 1.5rem; /* Εσωτερικά περιθώρια */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Σκιά */
+    position: fixed; /* Σταθερή θέση */
+    left: 300px; /* Θέση αριστερά */
+    width: calc(100% - 300px); /* Υπολογισμός πλάτους */
+    top: 0; /* Θέση κορυφή */
+    z-index: 100; /* Σειρά z για επικάλυψη */
+    transition: left 300ms; /* Μετάβαση θέσης αριστερά */
+}
+
+#nav-toggle {
+    display: none; /* Απόκρυψη του checkbox toggle */
+}
+
+header h2 {
+    color: #222; /* Χρώμα κειμένου */
+}
+
+header label span {
+    font-size: 1.7rem; /* Μέγεθος γραμματοσειράς */
+    padding-right: 1rem; /* Εσωτερικό περιθώριο δεξιά */
+    cursor: pointer; /* Αλλαγή του cursor σε pointer */
+    transition: transform 0.2s; /* Μετάβαση για ομαλή αλλαγή μεγέθους */
+}
+
+    header label span:hover {
+        transform: scale(1.1); /* Αυξάνει το μέγεθος κατά το hover */
+    }
+
+.user-wrapper {
+    display: flex; /* Ευέλικτη διάταξη */
+    align-items: center; /* Κεντράρισμα στοιχείων κάθετα */
+}
+
+    .user-wrapper img {
+        border-radius: 50%; /* Στρογγυλεμένες γωνίες */
+        margin-right: 1rem; /* Εξωτερικό περιθώριο δεξιά */
+    }
+
+main {
+    margin-top: 85px; /* Εξωτερικό περιθώριο πάνω */
+    padding: 2rem 1.5rem; /* Εσωτερικά περιθώρια */
+    background: var(--background-color); /* Χρώμα φόντου */
+    min-height: calc(100vh - 90px); /* Ελάχιστο ύψος */
+}
+
+@media only screen and (max-width: 1200px) {
+    .sidebar {
+        width: 70px; /* Μείωση πλάτους sidebar */
+    }
+
+        .sidebar .sidebar-brand,
+        .sidebar li {
+            padding-left: 1rem; /* Εσωτερικό περιθώριο αριστερά */
+            text-align: center; /* Κεντράρισμα κειμένου */
+        }
+
+            .sidebar li a {
+                padding-left: 0rem; /* Αφαίρεση εσωτερικού περιθωρίου αριστερά */
+            }
+
+                .sidebar .sidebar-brand h2 span:last-child,
+                .sidebar li a span:last-child {
+                    display: none; /* Απόκρυψη τελευταίου span */
+                }
+
+    .main-content {
+        margin-left: 70px; /* Μείωση περιθωρίου αριστερά του περιεχομένου */
+    }
+
+        .main-content header {
+            width: calc(100% - 70px); /* Υπολογισμός πλάτους */
+            left: 70px; /* Μετατόπιση αριστερά */
+        }
+}
+
+@media only screen and (max-width: 768px) {
+    .recent-grid {
+        grid-template-columns: 100%; /* Διάταξη μιας στήλης */
+    }
+
+    .sidebar {
+        left: -100% !important; /* Απόκρυψη sidebar εκτός οθόνης */
+    }
+
+    header h2 {
+        display: flex; /* Ευέλικτη διάταξη */
+        align-items: center; /* Κεντράρισμα στοιχείων κάθετα */
+    }
+
+        header h2 label {
+            display: inline-block; /* Εμφάνιση ως inline block */
+            background: var(--main-color); /* Χρώμα φόντου */
+            padding-right: 0rem; /* Εσωτερικό περιθώριο δεξιά */
+            margin-right: 1rem; /* Εξωτερικό περιθώριο δεξιά */
+            height: 40px; /* Ύψος 40px */
+            width: 40px; /* Πλάτος 40px */
+            border-radius: 50%; /* Στρογγυλεμένες γωνίες */
+            color: #fff; /* Χρώμα κειμένου */
+            display: flex; /* Ευέλικτη διάταξη */
+            align-items: center; /* Κεντράρισμα στοιχείων κάθετα */
+            justify-content: center !important; /* Κεντράρισμα στοιχείων οριζόντια */
+        }
+
+        header h2 span {
+            text-align: center; /* Κεντράρισμα κειμένου */
+            padding-right: 0rem; /* Αφαίρεση εσωτερικού περιθωρίου δεξιά */
+        }
+
+    header h2 {
+        font-size: 1.1rem; /* Μέγεθος γραμματοσειράς */
+    }
+
+    .main-content {
+        width: 100%; /* Πλάτος 100% */
+        margin-left: 0rem; /* Αφαίρεση περιθωρίου αριστερά */
+    }
+
+    header {
+        width: 100% !important; /* Πλάτος 100% */
+        left: 0% !important; /* Μετατόπιση αριστερά */
+    }
+
+    #nav-toggle:checked + .sidebar {
+        left: 0 !important; /* Εμφάνιση sidebar */
+        z-index: 100; /* Σειρά z για επικάλυψη */
+        width: 300px; /* Πλάτος 300px */
+    }
+
+        #nav-toggle:checked + .sidebar .sidebar-brand,
+        #nav-toggle:checked + .sidebar li {
+            padding-left: 2rem; /* Εσωτερικό περιθώριο αριστερά */
+            text-align: left; /* Ευθυγράμμιση κειμένου αριστερά */
+        }
+
+            #nav-toggle:checked + .sidebar li a {
+                padding-left: 1rem; /* Εσωτερικό περιθώριο αριστερά */
+            }
+
+                #nav-toggle:checked + .sidebar .sidebar-brand h2 span:last-child,
+                #nav-toggle:checked + .sidebar li a span:last-child {
+                    display: inline; /* Εμφάνιση τελευταίου span */
+                }
+
+    #nav-toggle:checked ~ .main-content {
+        margin-left: 0rem !important; /* Αφαίρεση περιθωρίου αριστερά του περιεχομένου */
+    }
+}
+
+.delete-btn .las {
+    color: black; /* Χρώμα εικονιδίου delete */
+}
+
+.delete-btn:hover .las {
+    color: var(--main-color); /* Χρώμα εικονιδίου delete κατά το hover */
+}
+
+.details-btn .las {
+    color: black; /* Χρώμα εικονιδίου details */
+}
+
+.details-btn:hover .las {
+    color: var(--main-color); /* Χρώμα εικονιδίου details κατά το hover */
+}

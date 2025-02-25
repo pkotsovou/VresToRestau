@@ -1,0 +1,226 @@
+﻿@{
+    var userNow = ViewBag.UserNow as VresToRestau2.Models.RegisteredUser;
+    var restaurant = ViewBag.Restaurant as Restaurant;
+    var reviews = ViewBag.Reviews as List<Review>;
+    var responses = ViewBag.Responses as List<Response>;
+}
+
+<link rel="stylesheet" href="~/css/styleRestaurantDetails.css">
+<link rel="stylesheet" href="~/css/navbar-footer.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+
+
+            <div class="d-flex align-items-center search2">
+                <a class="navbar-brand" asp-area="" asp-controller="RegisteredUsers" asp-action="Index" asp-route-userId="@userNow.Id">VresToRestau</a>
+            </div>
+
+
+            <div class="d-flex align-items-center justify-content-end">
+                <div class="dropdown">
+                    <img src="~/@userNow.ProfilePicture" alt="mdo" class="my-rounded-circle" onclick="toggleDropdown()">
+                </div>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+<div class="dropdown-menu right-align-lol" id="myDropdown">
+    <a class="navbar-brand " asp-area="" asp-controller="RegisteredUsers" asp-action="ViewProfile" asp-route-userId="@userNow.Id">@userNow.Username's Profile</a>
+    <a class="navbar-brand " asp-area="" asp-controller="RegisteredUsers" asp-action="AddRestaurant">Add Restaurant</a>
+    <a class="navbar-brand " asp-area="" asp-controller="Visitors" asp-action="Index">Sign Out</a>
+</div>
+
+
+<div class="content">
+
+    <div class="site-blocks-cover">
+        <div class="img-wrap animate__animated animate__fadeInLeft">
+            <div class="owl-carousel slide-one-item hero-slider">
+                @{
+                    var filepath = restaurant.PhotosLink;
+                }
+                <div class="slide">
+                    <img src="@filepath" alt="Restaurant photo">
+                </div>
+            </div>
+
+        </div>
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-6 ml-auto align-self-center animate__animated animate__fadeInDown">
+                    <div class="intro">
+                        <div class="heading">
+                            <h1 class="text-white font-weight-bold ">@restaurant.RestaurantName</h1>
+                        </div>
+                        <div class="text sub-text">
+                            <p>@restaurant.Details)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-8 info">
+                <div class="col-6">
+                    <div class="align" id="firstAlign">
+                        <i class="fa-solid fa-location-dot fa-3x icon-color"> </i>
+                        <i class="name-color">@restaurant.Location, @restaurant.Address</i>
+                    </div>
+
+                    <div class="align">
+                        <i class="fa-solid fa-phone fa-3x icon-color"></i>
+                        <i class="name-color">@restaurant.PhoneNumber</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-envelope fa-3x icon-color"></i>
+                        <i class="name-color">@restaurant.Email</i>
+                    </div>
+
+                </div>
+                <div class="vl"></div>
+                <div class="col-6 secondCol" id="firstAlign">
+
+                    <div class="align">
+                        <i class="fa-solid fa-utensils fa-3x icon-color"></i>
+                        <i class="name-color">@restaurant.Cuisine</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-euro-sign fa-3x icon-color"></i>
+                        <i class="name-color">@restaurant.Price</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-clock fa-3x icon-color"></i>
+                        <i class="name-color">@restaurant.Hours</i>
+                    </div>
+
+                </div>
+
+            </div>
+            @{
+                var maplink = @restaurant.MapLink;
+            }
+            <div class="col-4 map-container">
+                <iframe src="@maplink" width="400" height="300" style="border: 0; border-radius: 17px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-4">
+        <div class="row justify-content-between">
+            <div class="col-6">
+                <button class="btn btn-primary" onclick="toggleForm1()">Add Review</button>
+
+                <div class="mt-3" id="reviewForm" style="display: none;">
+                    <form asp-action="AddReview" asp-controller="Restaurants" method="post">
+                        <input type="hidden" name="RestaurantId" value="@restaurant.Id" />
+                        <div class="form-group mb-3">
+                            <input type="number" class="form-control" id="rating" name="Rating" min="1" max="5" placeholder="Enter rating (1-5)" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" id="comment" name="Comment" rows="4" placeholder="Enter your comment" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-secondary" onclick="toggleForm2()">View Reviews</button>
+
+                <div class="mt-3" id="viewReviewsForm" style="display: none;">
+                    @if (reviews.Count > 0)
+                    {
+                        @foreach (var review in reviews)
+                        {
+                            <div class="review p-3 mb-3" style="background-color: white; color: black; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                                <div class="review-header d-flex justify-content-between align-items-center">
+                                    <strong>@review.Username</strong>
+                                    <span>
+                                        @{
+                                            int fullStars = review.Stars;
+                                            int emptyStars = 5 - fullStars;
+                                        }
+                                        @for (int j = 0; j < fullStars; j++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                        @for (int j = 0; j < emptyStars; j++)
+                                        {
+                                            <i class="far fa-star text-warning"></i>
+                                        }
+                                    </span>
+                                </div>
+                                <div class="review-body mt-2">
+                                    <p style="color:black; font-size:19px; text-align: left">@review.Comment</p>
+                                </div>
+
+                                @{
+                                    var response = responses?.FirstOrDefault(r => r.ReviewId == review.Id);
+                                    if (response != null)
+                                    {
+                                        <div class="response mt-3 p-2" style="background-color: #f8f9fa; border-left: 4px solid #D7BA89; border-radius: 5px;">
+                                            <div class="response-header" style="text-align: left">
+                                                <strong>@restaurant.RestaurantName Response:</strong>
+                                            </div>
+                                            <div class="response-body mt-2">
+                                                <p style="color:black; font-size:19px; text-align: left">@response.ResponseDetails</p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No reviews for this restaurant yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        @* <div class="row mt-4">
+           
+            
+            
+            
+        </div> *@
+    </div>
+
+
+
+
+</div>
+
+
+
+<script>
+
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("myDropdown");
+        dropdownMenu.style.display = (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') ? 'block' : 'none';
+    }
+
+    function toggleForm1(){
+        var forms1 = document.getElementById("reviewForm");
+
+        forms1.style.display = (forms1.style.display === 'none' || forms1.style.display === '') ? 'block' : 'none';
+    }
+
+    function toggleForm2() {
+        var forms2 = document.getElementById("viewReviewsForm");
+
+        forms2.style.display = (forms2.style.display === 'none' || forms2.style.display === '') ? 'block' : 'none';
+
+    }
+
+</script>

@@ -1,0 +1,327 @@
+﻿@*@model List<VresToRestau2.Models.Restaurant>*@
+@model IEnumerable<VresToRestau2.Models.Restaurant>
+
+
+<link rel="stylesheet" href="~/css/navbar-footer.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+
+            <div class="d-flex align-items-center search1">
+                <a class="navbar-brand when-inside" asp-area="" asp-controller="Visitors" asp-action="Index">VresToRestau</a>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <form class="form-inline" id="gamotincss" method="get" action="/Visitors/Search">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+
+
+            <div class="d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Visitors" asp-action="Login">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Visitors" asp-action="SignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+@*https://codepen.io/ocxigin/pen/gOqjRQJ*@
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-3">
+            <nav id="sidebar">
+
+                <div class="p-4 pt-5">
+                    <form method="get" action="/Visitors/Filters">
+                        <h5>Φίλτρα</h5>
+                        <ul class="list-unstyled components mb-5">
+                            <li>
+                                <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Κουζίνες</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu1">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxRestaurants">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxRestaurants" name="Cuisines" value="Restaurants" aria-label="Restaurants">
+                                            Εστιατώρια
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxCafe">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxCafe" name="Cuisines" value="Cafe" aria-label="Cafe">
+                                            Καφέ και Τσάι
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxSouvlakia">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxSouvlakia" name="Cuisines" value="Souvlakia" aria-label="Souvlakia">
+                                            Σουβλάκια
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxPizza">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxPizza" name="Cuisines" value="Pizza" aria-label="Pizza">
+                                            Πίτσα
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBurgers">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBurgers" name="Cuisines" value="Burgers" aria-label="Burgers">
+                                            Burgers
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxAsian">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxAsian" name="Cuisines" value="Asian" aria-label="Asian">
+                                            Ασιάτικη
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Γέυματα</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu2">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBreakfast">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBreakfast" name="meals" value="Breakfast" aria-label="Breakfast">
+                                            Πρωινό
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxBrunch">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxBrunch" name="meals" value="Brunch" aria-label="Brunch">
+                                            Brunch
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxLunch">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxLunch" name="meals" value="Lunch" aria-label="Lunch">
+                                            Μεσημεριανό
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxDinner">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxDinner" name="meals" value="Dinner" aria-label="Dinner">
+                                            Βραδινό
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Τιμές</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu3">
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxCheapEats">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxCheapEats" name="prices" value="CheapEats" aria-label="CheapEats">
+                                            Cheap eats-€
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxMidRange">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxMidRange" name="prices" value="MidRange" aria-label="MidRange">
+                                            Mid-range-€€
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxFineDining">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxFineDining" name="prices" value="FineDining" aria-label="FineDining">
+                                            Fine Dining-€€€
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Αστέρια</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu4">
+                                    <li style="margin-bottom: 10px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar1">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar1" name="stars" value="1" aria-label="Star1">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar2">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar2" name="stars" value="2" aria-label="Star2">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar3">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar3" name="stars" value="3" aria-label="Star3">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i><i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar4">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar4" name="stars" value="4" aria-label="Star4">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <label class="form-check-label" style="color: black;" for="checkboxStar5">
+                                            <i class="fa-solid fa-chevron-right mr-2"></i>
+                                            <input class="form-check-input" type="checkbox" id="checkboxStar5" name="stars" value="5" aria-label="Star5">
+                                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="mb-5">
+                            <h5>Περιοχή</h5>
+                            <div class="tagcloud">
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Παγκράτι')">Παγκράτι</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Εξάρχεια')">Εξάρχεια</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Ψυρή')">Ψυρή</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Κολωνάκι')">Κολωνάκι</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Πλάκα')">Πλάκα</a>
+                                <a href="#" class="tag-cloud-link" onclick="addRegion('Κουκάκι')">Κουκάκι</a>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="regions" id="regionsInput">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                    </form>
+
+                </div>
+            </nav>
+        </div>
+
+        <div class="col-md-9" style="margin-bottom: 50px;">
+
+            <div class="btn-group dropright">
+                <button type="button" class="btn btn-secondary dropdown-toggle filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Suggested
+                </button>
+                <div class="dropdown-menu">
+                    <!-- Dropdown menu links -->
+                    <li>
+                        <form method="get" action="/Visitors/FilterByRating">
+                            <button type="submit" name="rating" value="top" class="dropdown-item">Top rated</button>
+                            <button type="submit" name="rating" value="low" class="dropdown-item">Low rated</button>
+                        </form>
+                    </li>
+                </div>
+            </div>
+            <br />
+            <br />
+
+
+            @foreach (var restaurant in Model)
+            {
+                <a href="@Url.Action("Details", "Restaurants", new { id = restaurant.Id })" class="text-decoration-none text-reset">
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 w-50 p-3">
+                                <img src="@restaurant.PhotosLink" class="card-img" alt="@restaurant.RestaurantName" style="height: 225px; object-fit: cover;">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card-body ">
+                                    <h5 class="card-title">@restaurant.RestaurantName</h5>
+
+                                    @{
+                                        int fullStars = @restaurant.Stars;
+                                        int emptyStars = 5 - fullStars;
+                                    }
+                                    @for (int j = 0; j < fullStars; j++)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                    @for (int j = 0; j < emptyStars; j++)
+                                    {
+                                        <i class="far fa-star text-warning"></i>
+                                    }
+
+
+                                    <p class="card-text">@restaurant.Location</p>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <p class="card-text">@restaurant.Cuisine</p>
+                                    <p class="card-text">@restaurant.Price</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/main.js"></script>
+
+
+<script>
+    //for multiple buttons to be sleected(location)
+    document.addEventListener('DOMContentLoaded', function () {
+        var tags = document.querySelectorAll('.tagcloud a');
+
+        tags.forEach(function (tag) {
+            tag.addEventListener('click', function (event) {
+                event.preventDefault();
+                this.classList.toggle('selected');
+            });
+        });
+    });</script>
+
+
+<script>
+    function addRegion(region) {
+        const regionsInput = document.getElementById('regionsInput');
+        let regions = regionsInput.value ? regionsInput.value.split(',') : [];
+        if (!regions.includes(region)) {
+            regions.push(region);
+        } else {
+            regions = regions.filter(r => r !== region);
+        }
+        regionsInput.value = regions.join(',');
+        console.log('Selected regions:', regionsInput.value); // Debugging
+    }</script>

@@ -1,0 +1,125 @@
+﻿@{
+    bool hasErrors = ViewBag.HasErrors ?? false; // default τιμή false
+    string errorMessage = ViewBag.ErrorMessage ?? string.Empty; //default τμή τίποτα
+}
+
+
+<link rel="stylesheet" href="~/css/log-sign.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/navbar-footer.css" asp-append-version="true" />
+<script src="~/js/sign.js"></script>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+
+            <div class="d-flex align-items-center search2">
+                <a class="navbar-brand" asp-area="" asp-controller="Visitors" asp-action="Index">VresToRestau</a>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Visitors" asp-action="Login">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active when-inside" asp-area="" asp-controller="Visitors" asp-action="SignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+<div class="container ">
+    <main role="main" class="pb-3">
+
+        <div class="out-container @(hasErrors ? "" : "animate__animated animate__fadeInLeft")">
+            @*  true ---> empty || false ---> animation *@
+            <div class="image-holder ">
+                <img src="~/images/RestaurantLogo.png" alt="png">
+            </div>
+            <form asp-action="SignUp" onsubmit="return checkAnswers()">
+                <h1>Create an Account</h1>
+                <div class="form-without-h1">
+                    <div class="form-group">
+                        @* <label>Email:</label> *@
+                        <input name="email" id="email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        @* <label>Username:</label> *@
+                        <input name="username" id="username" class="form-control" placeholder="Username" required>
+                    </div>
+
+                    <div class="form-group-eye">
+                        <input name="password" id="password" type="password" class="form-control" placeholder="Password" required>
+                        <img src="~/images/closed.png" id="eyeicon1" />
+                    </div>
+
+                    <div class="form-group-eye">
+                        <input name="conf_password" id="conf_password" type="password" class="form-control" placeholder="Confirm Password" required>
+                        <img src="~/images/closed.png" id="eyeicon2" />
+                    </div>
+
+                    <div class="form-group-button">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <div class="" id="validation-summary">
+                            @if (hasErrors)
+                            {
+                                <div class="text-danger">@errorMessage</div>
+
+                            }
+                        </div>
+                        <p id="result" class="text-danger"></p>
+
+
+                    </div>
+                    <h3>You already have an account? <a class="" asp-controller="Visitors" asp-action="Login">Log In</a> </h3>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the validation summary element
+        var validationSummary = document.getElementById("validation-summary");
+
+        if (validationSummary.style.display != "none") {
+            setTimeout(function () {
+                validationSummary.innerHTML = "";
+            }, 10000);
+        }
+        validationSummary.style.display = "unset";
+
+    });
+
+    let eyeicon1 = document.getElementById("eyeicon1");
+    let password = document.getElementById("password");
+    let eyeicon2 = document.getElementById("eyeicon2");
+    let conf_password = document.getElementById("conf_password");
+
+    eyeicon1.onclick = function () {
+        if (password.type == "password") {
+            password.type = "text";
+            eyeicon1.src = "/images/opened.png";
+        } else {
+            password.type = "password";
+            eyeicon1.src = "/images/closed.png";
+        }
+    }
+
+    eyeicon2.onclick = function () {
+        if (conf_password.type == "password") {
+            conf_password.type = "text";
+            eyeicon2.src = "/images/opened.png";
+        } else {
+            conf_password.type = "password";
+            eyeicon2.src = "/images/closed.png";
+        }
+    }
+
+</script>

@@ -1,0 +1,93 @@
+﻿/* Στυλ για το modal */
+.modal {
+    display: none; /* Αρχικά το modal είναι αόρατο */
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Επιτρέπει την κύλιση αν υπάρχει περισσότερο περιεχόμενο */
+    background-color: rgba(0, 0, 0, 0.4); /* Φόντο με ημιδιαφάνεια */
+}
+
+/* Στυλ για το παράθυρο διαλόγου του modal */
+.modal-dialog {
+    position: relative;
+    margin: 10% auto; /* Κεντράρει το modal κατακόρυφα */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 400px; /* Πλάτος του modal */
+}
+
+/* Στυλ για την κεφαλίδα και το υποσέλιδο του modal */
+.modal-header,
+.modal-footer {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6; /* Κάτω περιγράμματα για κεφαλίδα και υποσέλιδο */
+}
+
+/* Στυλ για το κυρίως περιεχόμενο του modal */
+.modal-body {
+    padding: 20px;
+}
+
+/* Στυλ για το κουμπί κλεισίματος του modal */
+.close {
+    position: absolute;
+    right: 20px; /* Δεξιά περιθώριο */
+    top: 10px; /* Επάνω περιθώριο */
+    color: #000;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Εμφάνιση του modal και του overlay όταν έχουν την κλάση active */
+.overlay.active,
+.modal.active {
+    display: block;
+}
+
+.active {
+    display: block;
+}
+
+/* Στυλ για τα κουμπιά */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Στυλ για το overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Φόντο με ημιδιαφάνεια */
+    z-index: 1;
+    display: none; /* Αρχικά το overlay είναι αόρατο */
+}
+
+/* Επιπλέον στυλ για το κουμπί κλεισίματος του modal όταν είναι σε hover ή focus */
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

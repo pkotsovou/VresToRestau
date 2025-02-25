@@ -1,0 +1,79 @@
+﻿@model VresToRestau2.Models.Restaurant
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/styleRestaurantDetails.css">
+    <link rel="stylesheet" href="~/css/navbar-footer.css">
+</head>
+
+<div class="content">
+    <!-- Site Blocks Cover -->
+    <div class="site-blocks-cover">
+        <div class="img-wrap animate__animated animate__fadeInLeft">
+            <div class="owl-carousel slide-one-item hero-slider">
+                <div class="slide">
+                    <img src="@Model.PhotosLink" alt="Restaurant photo">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 ml-auto align-self-center animate__animated animate__fadeInDown">
+                    <div class="intro">
+                        <div class="heading">
+                            <h1 class="text-white font-weight-bold ">@Model.RestaurantName</h1>
+                        </div>
+                        <div class="text sub-text">
+                            <p>@Model.Details</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END .site-blocks-cover -->
+    <!-- Restaurant Information -->
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-8 info">
+                <div class="col-6">
+                    <div class="align" id="firstAlign">
+                        <i class="fa-solid fa-location-dot fa-3x icon-color"> </i>
+                        <i class="name-color">@Model.Location, @Model.Address</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-phone fa-3x icon-color"></i>
+                        <i class="name-color">@Model.PhoneNumber</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-envelope fa-3x icon-color"></i>
+                        <i class="name-color">@Model.Email</i>
+                    </div>
+                </div>
+                <div class="vl"></div>
+                <div class="col-6 secondCol" id="firstAlign">
+                    <div class="align">
+                        <i class="fa-solid fa-utensils fa-3x icon-color"></i>
+                        <i class="name-color">@Model.Cuisine</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-euro-sign fa-3x icon-color"></i>
+                        <i class="name-color">@Model.Price</i>
+                    </div>
+                    <div class="align">
+                        <i class="fa-solid fa-clock fa-3x icon-color"></i>
+                        <i class="name-color">@Model.Hours</i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 map-container">
+                <iframe src="@Model.MapLink" width="400" height="300" style="border: 0; border-radius: 17px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" action="@Url.Action("SaveChanges", "ProfessionalUsers")">
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="window.location.href='@Url.Action("Edit", "ProfessionalUsers", new { id = Model.Id })'">Discard Changes</button>
+            </form>
+        </div>
+    </div>
+</div>

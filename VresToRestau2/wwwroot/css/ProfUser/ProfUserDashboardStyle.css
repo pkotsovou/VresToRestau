@@ -1,0 +1,483 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300:400:500:600&display=swap');
+
+/* Ορισμός μεταβλητών χρωμάτων για ευκολία επαναχρησιμοποίησης */
+:root {
+    --main-color: #3B3B3B; /* Κύριο χρώμα */
+    --color-dark: #1D2231; /* Σκούρο blue χρώμα */
+    --text-grey: #8390A2; /* Γκρι χρώμα για κείμενο */
+    --background-color: #f9f6f1; /* Χρώμα φόντου */
+}
+
+/* Καθολικό reset CSS για την εξάλειψη προεπιλεγμένων στυλ των browsers */
+* {
+    margin: 0; /* Εξάλειψη περιθωρίων */
+    padding: 0; /* Εξάλειψη αποστάσεων */
+    box-sizing: border-box; /* Συμπερίληψη περιγραμμάτων και padding στο συνολικό μέγεθος */
+    list-style-type: none; /* Εξάλειψη bullets από λίστες */
+    text-decoration: none; /* Εξάλειψη υπογραμμίσεων */
+    font-family: 'Poppins', sans-serif; /* Ορισμός γραμματοσειράς */
+}
+
+/* Στυλ για το σώμα της σελίδας */
+body {
+    background: var(--background-color); /* Χρώμα φόντου */
+}
+
+/* CSS για την πλευρική μπάρα */
+.sidebar {
+    width: 300px; /* Πλάτος της πλευρικής μπάρας */
+    position: fixed; /* Καθιστά την μπάρα σταθερή κατά την κύλιση */
+    left: 0; /* Τοποθέτηση από τα αριστερά */
+    top: 0; /* Τοποθέτηση από τα πάνω */
+    height: 100%; /* Ύψος 100% του παραθύρου */
+    background: var(--main-color); /* Χρώμα φόντου */
+    z-index: 100; /* Στοιχεία με υψηλότερο z-index εμφανίζονται πάνω από άλλα */
+    transition: width 300ms; /* Ομαλή μετάβαση κατά το άνοιγμα και το κλείσιμο */
+}
+
+/* Στοιχεία του logo στην πλευρική μπάρα */
+.sidebar-brand {
+    height: 90px; /* Ύψος του logo */
+    padding: 1rem 0rem 1rem 2rem; /* Εσοχή του logo */
+    color: #fff; /* Χρώμα κειμένου */
+}
+
+    .sidebar-brand span {
+        display: inline-block;
+        padding-right: 1rem;
+    }
+
+/* Στοιχεία του μενού στην πλευρική μπάρα */
+.sidebar-menu {
+    margin-top: 1rem; /* Εσοχή από το πάνω μέρος */
+}
+
+    .sidebar-menu li {
+        width: 100%;
+        margin-bottom: 1.7rem;
+        padding-left: 1rem;
+    }
+
+    /* Στοιχεία του μενού */
+    .sidebar-menu a {
+        padding-left: 1rem; /* Εσοχή από τα αριστερά */
+        display: block; /* Εμφάνιση ως block για τοποθέτηση στοιχείων στην κάθε γραμμή */
+        color: #fff; /* Χρώμα κειμένου */
+        font-size: 1.1rem; /* Μέγεθος γραμματοσειράς */
+    }
+
+/* Επιλεγμένο στοιχείο του μενού */
+.sidebar-item a.active {
+    background-color: var(--background-color); /* Χρώμα φόντου όταν είναι ενεργό */
+    padding-top: 1rem; /* Εσοχή από το πάνω μέρος */
+    padding-bottom: 1rem; /* Εσοχή από το κάτω μέρος */
+    color: var(--main-color); /* Χρώμα κειμένου όταν είναι ενεργό */
+    border-radius: 30px 0px 0px 30px; /* Στρογγυλεμένες γωνίες */
+}
+
+.sidebar-item span {
+    cursor: pointer; /* Αλλαγή του cursor σε pointer όταν τοποθετείται πάνω από το span */
+}
+
+.sidebar-menu a span:first-child {
+    font-size: 1.5rem;
+    padding-right: 1rem;
+}
+
+
+#nav-toggle:checked + .sidebar {
+    width: 70px;
+}
+
+    #nav-toggle:checked + .sidebar .sidebar-brand,
+    #nav-toggle:checked + .sidebar li {
+        padding-left: 1rem;
+        text-align: center;
+    }
+
+        #nav-toggle:checked + .sidebar li a {
+            padding-left: 0rem;
+        }
+
+            #nav-toggle:checked + .sidebar .sidebar-brand h2 span:last-child,
+            #nav-toggle:checked + .sidebar li a span:last-child {
+                display: none;
+            }
+
+#nav-toggle:checked ~ .main-content {
+    margin-left: 70px;
+}
+
+    #nav-toggle:checked ~ .main-content header {
+        width: calc(100% - 70px);
+        left: 70px;
+    }
+
+.main-content {
+    transition: margin-left 300ms;
+    margin-left: 300px;
+}
+
+/* Επικεφαλίδα */
+header {
+    background: #fff; /* Χρώμα φόντου */
+    display: flex; /* Εμφάνιση ως ευέλικτο κοντέινερ */
+    justify-content: space-between; /* Ευθυγράμμιση στο τέλος του κάθε παιδιού */
+    padding: 1rem 1.5rem; /* Εσοχή από τα πλάγια */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Σκίαση */
+    position: fixed; /* Καθιστά την επικεφαλίδα σταθερή κατά την κύλιση */
+    left: 300px; /* Τοποθέτηση από τα αριστερά */
+    width: calc(100% - 300px); /* Πλάτος 100% - το πλάτος της πλευρικής μπάρας */
+    top: 0; /* Τοποθέτηση από τα πάνω */
+    z-index: 100; /* Στοιχεία με υψηλότερο z-index εμφανίζονται πάνω από άλλα */
+    transition: left 300ms; /* Ομαλή μετάβαση */
+}
+
+#nav-toggle {
+    display: none;
+}
+
+header h2 {
+    color: #222;
+}
+
+header label span {
+    font-size: 1.7rem;
+    padding-right: 1rem;
+    cursor: pointer; /* Αλλαγή του cursor σε pointer όταν τοποθετείται πάνω από το span */
+    transition: transform 0.2s; /* Μετάβαση για ομαλή αλλαγή μεγέθους */
+}
+
+    header label span:hover {
+        transform: scale(1.1); /* Αυξάνει το μέγεθος του span όταν το ποντίκι είναι πάνω από αυτό */
+    }
+
+
+/* Επικεφαλίδα χρήστη */
+.user-wrapper {
+    display: flex; /* Εμφάνιση ως ευέλικτο κοντέινερ */
+    align-items: center; /* Ευθυγράμμιση στο κέντρο κατά μήκος του άξονα Y */
+}
+
+    .user-wrapper img {
+        border-radius: 50%; /* Στρογγυλεμένες γωνίες */
+        margin-right: 1rem; /* Εσοχή από τα δεξιά */
+    }
+
+main {
+    margin-top: 85px; /* Εσοχή από το πάνω μέρος */
+    padding: 2rem 1.5rem; /* Ανάστροφη εσοχή */
+    background: var(--background-color); /* Χρώμα φόντου */
+    min-height: calc(100vh - 90px); /* Ελάχιστο ύψος του κύριου περιεχομένου */
+}
+
+.cards {
+    display: grid; /* Εμφάνιση ως πλέγμα */
+    grid-template-columns: repeat(2, 1fr); /* 3 ισόπλευρα στήλες */
+    grid-gap: 2rem; /* Απόσταση μεταξύ των καρτών */
+    margin-top: 1rem; /* Εσοχή από το πάνω μέρος */
+}
+
+.card-single {
+    display: flex; /* Εμφάνιση ως ευέλικτο κοντέινερ */
+    justify-content: space-between; /* Ευθυγράμμιση μεταξύ των στοιχείων */
+    background: #fff; /* Χρώμα φόντου */
+    padding: 2rem; /* Εσοχή */
+    border-radius: 2px; /* Στρογγυλεμένες γωνίες */
+    cursor: pointer; /* Επιλογή cursor */
+}
+
+    .card-single div:last-child span {
+        font-size: 3rem; /* Μέγεθος γραμματοσειράς */
+        color: var(--main-color); /* Χρώμα γραμματοσειράς */
+    }
+
+    .card-single div:first-child span {
+        color: var(--text-grey); /* Χρώμα γραμματοσειράς */
+    }
+
+.recent-grid {
+    margin-top: 3.5rem; /* Εσοχή από το πάνω μέρος */
+    display: grid; /* Εμφάνιση ως πλέγμα */
+    grid-gap: 2rem; /* Απόσταση μεταξύ των στοιχείων του πλέγματος */
+    grid-template-columns: 50% auto; /* 2 στήλες, η πρώτη αναλαμβάνει το 50% του χώρου */
+}
+
+.card {
+    background: #fff; /* Χρώμα φόντου */
+    border-radius: 8px; /* Στρογγυλεμένες γωνίες */
+}
+
+.card-header {
+    padding: 1rem; /* Εσοχή */
+}
+
+.card-header {
+    display: flex; /* Εμφάνιση ως ευέλικτο κοντέινερ */
+    justify-content: space-between; /* Ευθυγράμμιση μεταξύ των στοιχείων */
+    align-items: center; /* Ευθυγράμμιση στο κέντρο κατά μήκος του άξονα Y */
+    border-bottom: 1px solid #f0f0f0; /* Κάτω περίγραμμα */
+}
+
+    /* Επιλεγμένο στοιχείο του μενού */
+    .card-header button {
+        background: var(--main-color); /* Χρώμα φόντου */
+        border-radius: 10px; /* Στρογγυλεμένες γωνίες */
+        color: #fff; /* Χρώμα γραμματοσειράς */
+        font-size: .8rem; /* Μέγεθος γραμματοσειράς */
+        padding: .5rem 1rem; /* Εσοχή */
+        border: 1px solid var(--main-color); /* Σύνορο */
+    }
+
+        /* Επιλεγμένο στοιχείο του μενού χρήστη */
+        .card-header button a {
+            background: var(--main-color); /* Χρώμα φόντου */
+            border-radius: 10px; /* Στρογγυλεμένες γωνίες */
+            color: #fff; /* Χρώμα γραμματοσειράς */
+            font-size: .8rem; /* Μέγεθος γραμματοσειράς */
+            padding: .5rem 1rem; /* Εσοχή */
+            border: 1px solid var(--main-color); /* Σύνορο */
+        }
+
+
+/* Πίνακας */
+table {
+    border-collapse: collapse; /* Συμπύκνωση των περιθωρίων του πίνακα */
+    width: 100%; /* Πλήρες πλάτος */
+}
+
+thread tr {
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+thread td {
+    font-weight: 700;
+}
+
+td {
+    padding: .5rem 1rem; /* Εσοχή */
+    font-size: .9rem; /* Μέγεθος γραμματοσειράς */
+    color: #222; /* Χρώμα γραμματοσειράς */
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+    .table td:first-child, /* Επιλέγουμε την πρώτη στήλη του πίνακα */
+    .table th:first-child {
+        width: 50%;
+    }
+
+    .table th:last-child,
+    .table td:last-child {
+        width: 50%;
+    }
+
+.customer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem .7rem;
+}
+
+.column-username {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 1rem;
+}
+
+.column-actions {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.action-icon {
+    font-size: 1.1rem;
+}
+
+.column-username, .column-actions {
+    width: 50%;
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+}
+
+    /*info user circle or image ? on users*/
+    .info h4 {
+        font-size: .8rem;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .info small {
+        font-weight: 600;
+        color: var(--text-grey);
+    }
+
+.contact span {
+    font-size: 1.2rem;
+    display: inline-block;
+    margin-left: .5rem;
+    color: var(--main-color);
+}
+
+.no-users-message, .no-restaurants-message {
+    text-align: center; /* Κεντράρισμα κειμένου */
+    margin-top: 20px; /* Εξωτερικό περιθώριο πάνω */
+}
+
+/* Αποκρίσεις του πίνακα */
+@media only screen and (max-width: 1200px) {
+    .sidebar {
+        width: 70px;
+    }
+
+        .sidebar .sidebar-brand,
+        .sidebar li {
+            padding-left: 1rem;
+            text-align: center;
+        }
+
+            .sidebar li a {
+                padding-left: 0rem;
+            }
+
+                .sidebar .sidebar-brand h2 span:last-child,
+                .sidebar li a span:last-child {
+                    display: none;
+                }
+
+    .main-content {
+        margin-left: 70px;
+    }
+
+        .main-content header {
+            width: calc(100% - 70px);
+            left: 70px;
+        }
+}
+
+@media only screen and (max-width: 960px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .recent-grid {
+        grid-template-columns: 50% 50%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .recent-grid {
+        grid-template-columns: 100%;
+    }
+
+    .sidebar {
+        left: -100% !important;
+    }
+
+    header h2 {
+        display: flex;
+        align-items: center;
+    }
+
+        header h2 label {
+            display: inline-block;
+            background: var(--main-color);
+            padding-right: 0rem;
+            margin-right: 1rem;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center !important;
+        }
+
+        header h2 span {
+            text-align: center;
+            padding-right: 0rem;
+        }
+
+    header h2 {
+        font-size: 1.1rem;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0rem;
+    }
+
+    header {
+        width: 100% !important;
+        left: 0% !important;
+    }
+
+    #nav-toggle:checked + .sidebar {
+        left: 0 !important;
+        z-index: 100;
+        width: 300px;
+    }
+
+        #nav-toggle:checked + .sidebar .sidebar-brand,
+        #nav-toggle:checked + .sidebar li {
+            padding-left: 2rem;
+            text-align: left;
+        }
+
+            #nav-toggle:checked + .sidebar li a {
+                padding-left: 1rem;
+            }
+
+                #nav-toggle:checked + .sidebar .sidebar-brand h2 span:last-child,
+                #nav-toggle:checked + .sidebar li a span:last-child {
+                    display: inline;
+                }
+
+    #nav-toggle:checked ~ .main-content {
+        margin-left: 0rem !important;
+    }
+}
+
+@media only screen and (max-width:560px) {
+    .cards {
+        grid-template-columns: 100%;
+    }
+}
+/* Εικονίδιο διαγραφής */
+.delete-btn .las {
+    color: black; /* Χρώμα εικονιδίου διαγραφής */
+}
+
+/* Εικονίδιο διαγραφής κατά το hover */
+.delete-btn:hover .las {
+    color: var(--main-color); /* Χρώμα εικονιδίου διαγραφής κατά το hover */
+}
+
+/* Εικονίδιο λεπτομερειών */
+.details-btn .las {
+    color: black; /* Χρώμα εικονιδίου λεπτομερειών */
+}
+
+/* Εικονίδιο λεπτομερειών κατά το hover */
+.details-btn:hover .las {
+    color: var(--main-color); /* Χρώμα εικονιδίου λεπτομερειών κατά το hover */
+}
